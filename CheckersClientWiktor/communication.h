@@ -2,6 +2,8 @@
 #define COMMUNICATION_H
 #include <QtNetwork>
 #include "command.h"
+#include <unordered_map>
+#include <string.h>
 class Communication: public QObject
 {
         Q_OBJECT
@@ -12,6 +14,7 @@ public:
     void login(QString login, QString password);
     void regist(QString login, QString password);
     void sendCommand(command cmnd, QString prm1 = QString(), QString prm2 = QString(),QString prm3 = QString() ,QString prm4 = QString() );
+
 public slots:
     void connected();
     void disconnected();
@@ -23,6 +26,7 @@ private:
     bool waitingRegister = 0;
     QString id;
     QString password;
+    std::unordered_map<std::string, command> commandMap;
 };
 
 #endif // COMMUNICATION_H
