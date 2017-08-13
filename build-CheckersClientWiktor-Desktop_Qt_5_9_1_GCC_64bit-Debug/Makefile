@@ -55,7 +55,9 @@ SOURCES       = ../CheckersClientWiktor/main.cpp \
 		../CheckersClientWiktor/controler.cpp \
 		../CheckersClientWiktor/view.cpp \
 		../CheckersClientWiktor/roomwindow.cpp \
-		../CheckersClientWiktor/communication.cpp moc_loginwindow.cpp \
+		../CheckersClientWiktor/communication.cpp \
+		../CheckersClientWiktor/fullcommand.cpp \
+		../CheckersClientWiktor/player.cpp moc_loginwindow.cpp \
 		moc_controler.cpp \
 		moc_roomwindow.cpp \
 		moc_communication.cpp
@@ -65,6 +67,8 @@ OBJECTS       = main.o \
 		view.o \
 		roomwindow.o \
 		communication.o \
+		fullcommand.o \
+		player.o \
 		moc_loginwindow.o \
 		moc_controler.o \
 		moc_roomwindow.o \
@@ -253,12 +257,15 @@ DIST          = /home/wiktor/Qt5.9.1/5.9.1/gcc_64/mkspecs/features/spec_pre.prf 
 		../CheckersClientWiktor/view.h \
 		../CheckersClientWiktor/roomwindow.h \
 		../CheckersClientWiktor/communication.h \
-		../CheckersClientWiktor/command.h ../CheckersClientWiktor/main.cpp \
+		../CheckersClientWiktor/fullcommand.h \
+		../CheckersClientWiktor/player.h ../CheckersClientWiktor/main.cpp \
 		../CheckersClientWiktor/loginwindow.cpp \
 		../CheckersClientWiktor/controler.cpp \
 		../CheckersClientWiktor/view.cpp \
 		../CheckersClientWiktor/roomwindow.cpp \
-		../CheckersClientWiktor/communication.cpp
+		../CheckersClientWiktor/communication.cpp \
+		../CheckersClientWiktor/fullcommand.cpp \
+		../CheckersClientWiktor/player.cpp
 QMAKE_TARGET  = CheckersClientWiktor
 DESTDIR       = 
 TARGET        = CheckersClientWiktor
@@ -654,8 +661,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /home/wiktor/Qt5.9.1/5.9.1/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../CheckersClientWiktor/loginwindow.h ../CheckersClientWiktor/controler.h ../CheckersClientWiktor/view.h ../CheckersClientWiktor/roomwindow.h ../CheckersClientWiktor/communication.h ../CheckersClientWiktor/command.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../CheckersClientWiktor/main.cpp ../CheckersClientWiktor/loginwindow.cpp ../CheckersClientWiktor/controler.cpp ../CheckersClientWiktor/view.cpp ../CheckersClientWiktor/roomwindow.cpp ../CheckersClientWiktor/communication.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../CheckersClientWiktor/loginwindow.h ../CheckersClientWiktor/controler.h ../CheckersClientWiktor/view.h ../CheckersClientWiktor/roomwindow.h ../CheckersClientWiktor/communication.h ../CheckersClientWiktor/fullcommand.h ../CheckersClientWiktor/player.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../CheckersClientWiktor/main.cpp ../CheckersClientWiktor/loginwindow.cpp ../CheckersClientWiktor/controler.cpp ../CheckersClientWiktor/view.cpp ../CheckersClientWiktor/roomwindow.cpp ../CheckersClientWiktor/communication.cpp ../CheckersClientWiktor/fullcommand.cpp ../CheckersClientWiktor/player.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../CheckersClientWiktor/loginwindow.ui ../CheckersClientWiktor/roomwindow.ui $(DISTDIR)/
 
 
@@ -794,7 +801,6 @@ moc_loginwindow.cpp: /home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QMainWi
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtouchdevice.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtabwidget.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qicon.h \
-		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QString \
 		../CheckersClientWiktor/loginwindow.h \
 		moc_predefs.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/bin/moc
@@ -904,7 +910,9 @@ moc_controler.cpp: ../CheckersClientWiktor/loginwindow.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtouchdevice.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtabwidget.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qicon.h \
-		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QString \
+		../CheckersClientWiktor/roomwindow.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QDialog \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qdialog.h \
 		../CheckersClientWiktor/communication.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtNetwork/QtNetwork \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtNetwork/QtNetworkDepends \
@@ -1027,6 +1035,7 @@ moc_controler.cpp: ../CheckersClientWiktor/loginwindow.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtNetwork/qabstractnetworkcache.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtNetwork/qnetworkrequest.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QSharedDataPointer \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QString \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QUrl \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QVariant \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtNetwork/qabstractsocket.h \
@@ -1077,7 +1086,9 @@ moc_controler.cpp: ../CheckersClientWiktor/loginwindow.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtNetwork/qsslkey.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtNetwork/qudpsocket.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtNetwork/qtnetworkversion.h \
-		../CheckersClientWiktor/command.h \
+		../CheckersClientWiktor/fullcommand.h \
+		../CheckersClientWiktor/state.h \
+		../CheckersClientWiktor/player.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QDebug \
 		../CheckersClientWiktor/controler.h \
 		moc_predefs.h \
@@ -1431,7 +1442,7 @@ moc_communication.cpp: /home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtNetwork/QtNet
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtNetwork/qsslkey.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtNetwork/qudpsocket.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtNetwork/qtnetworkversion.h \
-		../CheckersClientWiktor/command.h \
+		../CheckersClientWiktor/fullcommand.h \
 		../CheckersClientWiktor/communication.h \
 		moc_predefs.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/bin/moc
@@ -1568,7 +1579,6 @@ main.o: ../CheckersClientWiktor/main.cpp ../CheckersClientWiktor/roomwindow.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qmainwindow.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtabwidget.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qicon.h \
-		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QString \
 		../CheckersClientWiktor/communication.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtNetwork/QtNetwork \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtNetwork/QtNetworkDepends \
@@ -1691,6 +1701,7 @@ main.o: ../CheckersClientWiktor/main.cpp ../CheckersClientWiktor/roomwindow.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtNetwork/qabstractnetworkcache.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtNetwork/qnetworkrequest.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QSharedDataPointer \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QString \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QUrl \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QVariant \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtNetwork/qabstractsocket.h \
@@ -1741,7 +1752,9 @@ main.o: ../CheckersClientWiktor/main.cpp ../CheckersClientWiktor/roomwindow.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtNetwork/qsslkey.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtNetwork/qudpsocket.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtNetwork/qtnetworkversion.h \
-		../CheckersClientWiktor/command.h \
+		../CheckersClientWiktor/fullcommand.h \
+		../CheckersClientWiktor/state.h \
+		../CheckersClientWiktor/player.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QDebug \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QApplication \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qapplication.h \
@@ -1854,7 +1867,6 @@ loginwindow.o: ../CheckersClientWiktor/loginwindow.cpp ../CheckersClientWiktor/l
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtouchdevice.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtabwidget.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qicon.h \
-		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QString \
 		ui_loginwindow.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QVariant \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QAction \
@@ -1869,6 +1881,12 @@ loginwindow.o: ../CheckersClientWiktor/loginwindow.cpp ../CheckersClientWiktor/l
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qinputmethod.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QButtonGroup \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qbuttongroup.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGridLayout \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qgridlayout.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qlayout.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qlayoutitem.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qboxlayout.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QHBoxLayout \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QHeaderView \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qheaderview.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractitemview.h \
@@ -1898,10 +1916,10 @@ loginwindow.o: ../CheckersClientWiktor/loginwindow.cpp ../CheckersClientWiktor/l
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QPushButton \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qpushbutton.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractbutton.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QSpacerItem \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QStatusBar \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qstatusbar.h \
-		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QToolBar \
-		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtoolbar.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QVBoxLayout \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QWidget
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o loginwindow.o ../CheckersClientWiktor/loginwindow.cpp
 
@@ -2010,7 +2028,9 @@ controler.o: ../CheckersClientWiktor/controler.cpp ../CheckersClientWiktor/contr
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtouchdevice.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtabwidget.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qicon.h \
-		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QString \
+		../CheckersClientWiktor/roomwindow.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QDialog \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qdialog.h \
 		../CheckersClientWiktor/communication.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtNetwork/QtNetwork \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtNetwork/QtNetworkDepends \
@@ -2133,6 +2153,7 @@ controler.o: ../CheckersClientWiktor/controler.cpp ../CheckersClientWiktor/contr
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtNetwork/qabstractnetworkcache.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtNetwork/qnetworkrequest.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QSharedDataPointer \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QString \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QUrl \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QVariant \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtNetwork/qabstractsocket.h \
@@ -2183,13 +2204,17 @@ controler.o: ../CheckersClientWiktor/controler.cpp ../CheckersClientWiktor/contr
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtNetwork/qsslkey.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtNetwork/qudpsocket.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtNetwork/qtnetworkversion.h \
-		../CheckersClientWiktor/command.h \
+		../CheckersClientWiktor/fullcommand.h \
+		../CheckersClientWiktor/state.h \
+		../CheckersClientWiktor/player.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QDebug \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QApplication \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qapplication.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qdesktopwidget.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qguiapplication.h \
-		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qinputmethod.h
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qinputmethod.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QMessageBox \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qmessagebox.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o controler.o ../CheckersClientWiktor/controler.cpp
 
 view.o: ../CheckersClientWiktor/view.cpp ../CheckersClientWiktor/view.h
@@ -2312,6 +2337,12 @@ roomwindow.o: ../CheckersClientWiktor/roomwindow.cpp ../CheckersClientWiktor/roo
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qinputmethod.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QButtonGroup \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qbuttongroup.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGridLayout \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qgridlayout.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qlayout.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qlayoutitem.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qboxlayout.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QHBoxLayout \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QHeaderView \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qheaderview.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractitemview.h \
@@ -2329,7 +2360,16 @@ roomwindow.o: ../CheckersClientWiktor/roomwindow.cpp ../CheckersClientWiktor/roo
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qstyle.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtabbar.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtabwidget.h \
-		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qrubberband.h
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qrubberband.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QLabel \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qlabel.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QListView \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qlistview.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QPushButton \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qpushbutton.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractbutton.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QSpacerItem \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QVBoxLayout
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o roomwindow.o ../CheckersClientWiktor/roomwindow.cpp
 
 communication.o: ../CheckersClientWiktor/communication.cpp ../CheckersClientWiktor/communication.h \
@@ -2574,8 +2614,52 @@ communication.o: ../CheckersClientWiktor/communication.cpp ../CheckersClientWikt
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtNetwork/qsslkey.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtNetwork/qudpsocket.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtNetwork/qtnetworkversion.h \
-		../CheckersClientWiktor/command.h
+		../CheckersClientWiktor/fullcommand.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o communication.o ../CheckersClientWiktor/communication.cpp
+
+fullcommand.o: ../CheckersClientWiktor/fullcommand.cpp ../CheckersClientWiktor/fullcommand.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QStringList \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstringlist.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qlist.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qalgorithms.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qglobal.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qconfig.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtcore-config.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsysinfo.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qlogging.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qflags.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qatomic.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qatomic_msvc.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmutex.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qnumeric.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qversiontagging.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qiterator.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qrefcount.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qarraydata.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qchar.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qpair.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qbytearray.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qnamespace.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstring.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qregexp.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstringmatcher.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o fullcommand.o ../CheckersClientWiktor/fullcommand.cpp
+
+player.o: ../CheckersClientWiktor/player.cpp ../CheckersClientWiktor/player.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o player.o ../CheckersClientWiktor/player.cpp
 
 moc_loginwindow.o: moc_loginwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_loginwindow.o moc_loginwindow.cpp

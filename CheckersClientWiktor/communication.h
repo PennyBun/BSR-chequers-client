@@ -1,7 +1,7 @@
 #ifndef COMMUNICATION_H
 #define COMMUNICATION_H
 #include <QtNetwork>
-#include "command.h"
+#include "fullcommand.h"
 #include <unordered_map>
 
 class Communication: public QObject

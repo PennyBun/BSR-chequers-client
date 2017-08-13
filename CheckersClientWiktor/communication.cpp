@@ -165,20 +165,13 @@ fullCommand Communication::parse(QString notParsedCommand)
     {
         fllCmmnd.com=INTERNAL_ERROR;
     }
-
-
-    switch(numberOfParameters)
+    if(numberOfParameters>0)
     {
-    case 4:
-        fllCmmnd.prm4=splitedCommand[4];
-    case 3:
-        fllCmmnd.prm3=splitedCommand[3];
-    case 2:
-        fllCmmnd.prm2=splitedCommand[2];
-    case 1:
-        fllCmmnd.prm1=splitedCommand[1];
-    default:
-        break;
+        for (int i =1;i<splitedCommand.length();i++)
+        {
+            fllCmmnd.parameters.push_back(splitedCommand[i]);
+        }
     }
+
     return fllCmmnd;
 }

@@ -4,9 +4,10 @@
 #include "roomwindow.h"
 #include "communication.h"
 #include "state.h"
+#include "player.h"
 #include <QObject>
 #include <QDebug>
-
+#include <list>
 class Controler : public QObject
 {
     Q_OBJECT
@@ -40,6 +41,7 @@ private:
     void unexpectedCommand();
     void openRoomWindow();
     void refreshPlayersList();
+    std::list<Player> playersList;
     //QNetworkSession *networkSession;
 
     //QDataStream in;

@@ -30,7 +30,9 @@ SOURCES += \
     controler.cpp \
     view.cpp \
     roomwindow.cpp \
-    communication.cpp
+    communication.cpp \
+    fullcommand.cpp \
+    player.cpp
 
 HEADERS += \
         loginwindow.h \
@@ -38,7 +40,8 @@ HEADERS += \
     view.h \
     roomwindow.h \
     communication.h \
-    command.h
+    fullcommand.h \
+    player.h
 
 FORMS += \
         loginwindow.ui \

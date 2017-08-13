@@ -134,13 +134,13 @@ void Controler::LGN_WFRcommandAnalyser(fullCommand fllCmmnd)
     case LGN:
 
 
-        if(fllCmmnd.prm1=="1")
+        if(fllCmmnd.par1()=="1")
         {
-            openRoomWindow();
             changeState(ROOM);
+            openRoomWindow();
             loginWindow.close();
         }
-        else if(fllCmmnd.prm1=="0")
+        else if(fllCmmnd.par1()=="0")
         {
             QMessageBox msgBox;
             msgBox.setWindowTitle("Warcaby");
@@ -150,7 +150,7 @@ void Controler::LGN_WFRcommandAnalyser(fullCommand fllCmmnd)
         }
         break;
     case ERR:
-        if(fllCmmnd.prm1=="not enough parameters")
+        if(fllCmmnd.par1()=="not enough parameters")
         {
             QMessageBox msgBox;
             msgBox.setWindowTitle("Warcaby");
@@ -185,7 +185,7 @@ void Controler::CRA_WFRcommandAnalyser(fullCommand fllCmmnd)
     switch (fllCmmnd.com)
     {
     case CRA:
-        if(fllCmmnd.prm1=="1")
+        if(fllCmmnd.par1()=="1")
         {
             QMessageBox msgBox;
             msgBox.setWindowTitle("Warcaby");
@@ -195,7 +195,7 @@ void Controler::CRA_WFRcommandAnalyser(fullCommand fllCmmnd)
             changeState(NLG);
 
         }
-        else if(fllCmmnd.prm1=="0")
+        else if(fllCmmnd.par1()=="0")
         {
             QMessageBox msgBox;
             msgBox.setWindowTitle("Warcaby");
@@ -209,7 +209,7 @@ void Controler::CRA_WFRcommandAnalyser(fullCommand fllCmmnd)
         }
         break;
     case ERR:
-        if(fllCmmnd.prm1=="not enough parameters")
+        if(fllCmmnd.par1()=="not enough parameters")
         {
             QMessageBox msgBox;
             msgBox.setWindowTitle("Warcaby");
@@ -243,7 +243,58 @@ void Controler::ROOMcommandAnalyser(fullCommand fllCmmnd)
 
 void Controler::LSP_WFRcommandAnalyser(fullCommand fllCmmnd)
 {
-
+    state defaultState = ROOM;
+    switch (fllCmmnd.com)
+    {
+    case LSP:
+        {
+            int parNumber = fllCmmnd.parameters.length();
+            Player tempPlayer;
+            for(int i =0;i<parNumber;i++)
+            {
+                if(i%2==0){
+                    tempPlayer.name=fllCmmnd.parameters[i];
+                }
+                else
+                {
+                    if(fllCmmnd.parameters[i]=="A")
+                    {
+                        tempPlayer.free=true;
+                    }
+                    else if(fllCmmnd.parameters[i]=="B")
+                    {
+                        tempPlayer.free=false;
+                    }
+                    else{
+                        QMessageBox msgBox;
+                        msgBox.setWindowTitle("Warcaby");
+                        msgBox.setText("Błąd protokołu!");
+                        msgBox.exec();
+                        changeState(defaultState);
+                    }
+                    playersList.push_back(tempPlayer);
+                }
+            }
+        }
+        break;
+    case ERR:
+    {
+        QMessageBox msgBox;
+        msgBox.setWindowTitle("Warcaby");
+        msgBox.setText("Błąd protokołu!");
+        msgBox.exec();
+        changeState(defaultState);
+    }
+        break;
+    case ERS:
+        break;
+    default:
+    {
+        unexpectedCommand();
+        changeState(defaultState);
+    }
+        break;
+    }
 }
 
 void Controler::WAITRcommandAnalyser(fullCommand fllCmmnd)
@@ -273,6 +324,7 @@ void Controler::openRoomWindow()
 
     roomWindow.setUser(user);
     roomWindow.show();
+    refreshPlayersList();
 }
 
 void Controler::refreshPlayersList()
