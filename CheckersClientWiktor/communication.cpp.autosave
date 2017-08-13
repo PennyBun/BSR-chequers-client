@@ -157,7 +157,14 @@ fullCommand Communication::parse(QString notParsedCommand)
     splitedCommand = notParsedCommand.split('#');
     int numberOfParameters = splitedCommand.count()-1;
     fullCommand fllCmmnd;
-    fllCmmnd.com=commandMap.value(splitedCommand[0]);
+    if(commandMap.contains(splitedCommand[0]))
+    {
+        fllCmmnd.com=commandMap.value(splitedCommand[0]);
+    }
+    else
+    {
+        fllCmmnd.com=INTERNAL_ERROR;
+    }
 //    std::string commandString = splitedCommand[0];//.toString();
 
 //    auto search = commandMap.find(commandString);

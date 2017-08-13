@@ -28,7 +28,7 @@ private:
     bool waitingRegister = 0;
     QString id;
     QString password;
-    std::unordered_map<std::string, command> commandMap;
+    QHash<QString, command> commandMap;
     fullCommand parse(QString notParsedCommand);
 };
 
