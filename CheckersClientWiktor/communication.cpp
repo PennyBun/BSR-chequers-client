@@ -1,5 +1,6 @@
 #include "communication.h"
 #include <iostream>
+#include <string>
 Communication::Communication(QObject *parent):
     QObject(parent),
     socket(new QTcpSocket(this))
@@ -9,7 +10,7 @@ Communication::Communication(QObject *parent):
     connect(socket, SIGNAL(readyRead()), this, SLOT(readyRead()));
     connect(socket, SIGNAL(bytesWritten(qint64)), this, SLOT(bytesWritten(qint64)));
     //commandMap = new std::unordered_map<int, std::string>();
-    commandMap.insert( // std::unordered_map<QString, command>();
+    commandMap=QHash<QString,command>( // std::unordered_map<QString, command>();
     {
        {"LGN",LGN},
        {"CRA",CRA},
@@ -25,7 +26,8 @@ Communication::Communication(QObject *parent):
        {"LGO",LGO},
        {"ERR",ERR},
        {"ERS",ERS},
-       {"MOV",MOV}
+       {"MOV",MOV},
+       {"INTERNAL_ERROR",INTERNAL_ERROR}
     });
 //    for(auto& p : commandMap)
 //    {
@@ -84,60 +86,14 @@ void Communication::regist(QString login, QString password)
 void Communication::sendCommand(command cmnd, QString prm1, QString prm2, QString prm3, QString prm4)
 {
     QString cmndToSend;
-    for(auto& p : commandMap)
-    {
-        if(cmnd==p.second)
-        {
-            cmndToSend=p.first.data();
-            break;
-        }
-    }
-//    switch(cmnd){
-//    case LGN:
-//        cmndToSend = "LGN";
-//        break;
-//    case CRA:
-//        cmndToSend = "CRA";
-//        break;
-//    case LSP:
-//        cmndToSend = "LSP";
-//        break;
-//    case RFP:
-//        cmndToSend = "RFP";
-//        break;
-//    case RP1:
-//        cmndToSend = "RP1";
-//        break;
-//    case RP2:
-//        cmndToSend = "RP2";
-//        break;
-//    case INI:
-//        cmndToSend = "INI";
-//        break;
-//    case CHB:
-//        cmndToSend = "CHB";
-//        break;
-//    case YMV:
-//        cmndToSend = "YMV";
-//        break;
-//    case GVU:
-//        cmndToSend = "GVU";
-//        break;
-//    case EOG:
-//        cmndToSend = "EOG";
-//        break;
-//    case LGO:
-//        cmndToSend = "LGO";
-//        break;
-//    case ERR:
-//        cmndToSend = "ERR";
-//        break;
-//    case ERS:
-//        cmndToSend = "ERS";
-//        break;
-//    case MOV:
-//        cmndToSend = "MOV";
-//        break;
+    cmndToSend=commandMap.key(cmnd);
+//    for(auto& p : commandMap)
+//    {
+//        if(cmnd==p.value())
+//        {
+//            cmndToSend=p.key();//.data();
+//            break;
+//        }
 //    }
     QStringList cmndList;
     cmndList <<cmndToSend;
@@ -189,6 +145,40 @@ void Communication::bytesWritten(qint64 bytes)
 
 void Communication::readyRead()
 {
-    qDebug() << "Reading...";
-    qDebug() << socket->readAll();
+    emit commandReceived(parse(socket->readAll()));
+//    qDebug() << "Reading...";
+//    qDebug() << socket->readAll();
+}
+
+fullCommand Communication::parse(QString notParsedCommand)
+{
+    notParsedCommand=notParsedCommand.trimmed();
+    QStringList splitedCommand;
+    splitedCommand = notParsedCommand.split('#');
+    int numberOfParameters = splitedCommand.count()-1;
+    fullCommand fllCmmnd;
+    if(commandMap.contains(splitedCommand[0]))
+    {
+        fllCmmnd.com=commandMap.value(splitedCommand[0]);
+    }
+    else
+    {
+        fllCmmnd.com=INTERNAL_ERROR;
+    }
+
+
+    switch(numberOfParameters)
+    {
+    case 4:
+        fllCmmnd.prm4=splitedCommand[4];
+    case 3:
+        fllCmmnd.prm3=splitedCommand[3];
+    case 2:
+        fllCmmnd.prm2=splitedCommand[2];
+    case 1:
+        fllCmmnd.prm1=splitedCommand[1];
+    default:
+        break;
+    }
+    return fllCmmnd;
 }

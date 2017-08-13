@@ -1,6 +1,6 @@
 #include "controler.h"
 #include <QApplication>
-
+#include <QMessageBox>
 Controler::Controler(QObject *parent):
 
     QObject(parent)
@@ -12,6 +12,7 @@ Controler::Controler(QObject *parent):
     comm = new Communication();
     connect(&loginWindow, SIGNAL(login(QString,QString)), this, SLOT(login(QString,QString)));
     connect(&loginWindow, SIGNAL(regist(QString,QString)), this, SLOT(regist(QString,QString)));
+    connect(comm, SIGNAL(commandReceived(fullCommand)),this,SLOT(commandReceived(fullCommand)));
 }
 
 Controler::~Controler()
@@ -50,9 +51,232 @@ void Controler::startSession()
 void Controler::login(QString login, QString password)
 {
     comm->login(login,password);
+    changeState(LGN_WFR);
+    user=login;
 }
 
 void Controler::regist(QString login, QString password)
 {
     comm->regist(login,password);
+    changeState(CRA_WFR);
+}
+
+void Controler::commandReceived(fullCommand fllCmmnd)
+{
+    switch (crrState) {
+    case LGN_WFR:
+        LGN_WFRcommandAnalyser(fllCmmnd);
+        break;
+    case CRA_WFR:
+        CRA_WFRcommandAnalyser(fllCmmnd);
+        break;
+    case NLG:
+        NLGcommandAnalyser(fllCmmnd);
+        break;
+    case ROOM   :
+        ROOMcommandAnalyser(fllCmmnd);
+        break;
+    case LSP_WFR:
+        LSP_WFRcommandAnalyser(fllCmmnd);
+        break;
+    case WAITR  :
+        WAITRcommandAnalyser(fllCmmnd);
+        break;
+    case WAITG  :
+        WAITGcommandAnalyser(fllCmmnd);
+        break;
+    case GAME   :
+        GAMEcommandAnalyser(fllCmmnd);
+        break;
+    default:
+        break;
+    }
+}
+
+void Controler::changeState(state nextState)
+{
+    switch (nextState){
+        case NLG    :
+            qDebug()<<"state: NLG";
+            break;
+        case LGN_WFR:
+            qDebug()<<"state: LGN_WFR";
+            break;
+        case CRA_WFR:
+            qDebug()<<"state: CRA_WFR";
+            break;
+        case ROOM   :
+            qDebug()<<"state: ROOM";
+            break;
+        case LSP_WFR:
+            qDebug()<<"state: LSP_WFR";
+            break;
+        case WAITR  :
+            qDebug()<<"state: WAITR";
+            break;
+        case WAITG  :
+            qDebug()<<"state: WAITG";
+
+            break;
+        case GAME   :
+            qDebug()<<"state: GAME";
+
+            break;
+    }
+    crrState=nextState;
+
+}
+
+void Controler::LGN_WFRcommandAnalyser(fullCommand fllCmmnd)
+{
+    switch(fllCmmnd.com)
+    {
+    case LGN:
+
+
+        if(fllCmmnd.prm1=="1")
+        {
+            openRoomWindow();
+            changeState(ROOM);
+            loginWindow.close();
+        }
+        else if(fllCmmnd.prm1=="0")
+        {
+            QMessageBox msgBox;
+            msgBox.setWindowTitle("Warcaby");
+            msgBox.setText("Niepoprawne nazwa użytkownika lub hasło");
+            msgBox.exec();
+            changeState(NLG);
+        }
+        break;
+    case ERR:
+        if(fllCmmnd.prm1=="not enough parameters")
+        {
+            QMessageBox msgBox;
+            msgBox.setWindowTitle("Warcaby");
+            msgBox.setText("Przed zalogowaniem wypełnij pola 'login' i 'hasło'");
+            msgBox.exec();
+            changeState(NLG);
+
+        }else
+        {
+            QMessageBox msgBox;
+            msgBox.setWindowTitle("Warcaby");
+            msgBox.setText("Błąd!");
+            msgBox.setInformativeText("Niewłaściwa liczba parametrów");
+            msgBox.exec();
+            changeState(NLG);
+        }
+        break;
+    default:
+        unexpectedCommand();
+        changeState(NLG);
+        break;
+    }
+}
+
+void Controler::NLGcommandAnalyser(fullCommand fllCmmnd)
+{
+
+}
+
+void Controler::CRA_WFRcommandAnalyser(fullCommand fllCmmnd)
+{
+    switch (fllCmmnd.com)
+    {
+    case CRA:
+        if(fllCmmnd.prm1=="1")
+        {
+            QMessageBox msgBox;
+            msgBox.setWindowTitle("Warcaby");
+            msgBox.setText("Zarejestrowano użytkownika.");
+            msgBox.setInformativeText("Zaloguj się, aby zagrać.");
+            msgBox.exec();
+            changeState(NLG);
+
+        }
+        else if(fllCmmnd.prm1=="0")
+        {
+            QMessageBox msgBox;
+            msgBox.setWindowTitle("Warcaby");
+            msgBox.setText("Rejestracja nie powiodła się.");
+            msgBox.setInformativeText("Nazwa użytkownika jest zajęta");
+            msgBox.exec();
+            changeState(NLG);
+        }
+        else{
+
+        }
+        break;
+    case ERR:
+        if(fllCmmnd.prm1=="not enough parameters")
+        {
+            QMessageBox msgBox;
+            msgBox.setWindowTitle("Warcaby");
+            msgBox.setText("Przed zarejestrowaniem wypełnij pola 'login' i 'hasło'");
+            msgBox.exec();
+            changeState(NLG);
+
+        }else
+        {
+            QMessageBox msgBox;
+            msgBox.setWindowTitle("Warcaby");
+            msgBox.setText("Błąd!");
+            msgBox.setInformativeText("Niewłaściwa liczba parametrów");
+            msgBox.exec();
+            changeState(NLG);
+        }
+        break;
+    default:
+        unexpectedCommand();
+        changeState(NLG);
+        break;
+    }
+
+
+}
+
+void Controler::ROOMcommandAnalyser(fullCommand fllCmmnd)
+{
+
+}
+
+void Controler::LSP_WFRcommandAnalyser(fullCommand fllCmmnd)
+{
+
+}
+
+void Controler::WAITRcommandAnalyser(fullCommand fllCmmnd)
+{
+
+}
+
+void Controler::WAITGcommandAnalyser(fullCommand fllCmmnd)
+{
+
+}
+
+void Controler::GAMEcommandAnalyser(fullCommand fllCmmnd)
+{
+
+}
+
+void Controler::unexpectedCommand()
+{
+    QMessageBox msgBox;
+    msgBox.setText("Otrzymano od serwera nieoczekiwaną komendę");
+    msgBox.exec();
+}
+
+void Controler::openRoomWindow()
+{
+
+    roomWindow.setUser(user);
+    roomWindow.show();
+}
+
+void Controler::refreshPlayersList()
+{
+    comm->sendCommand(LSP);
+    changeState(LSP_WFR);
 }

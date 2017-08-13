@@ -6,12 +6,21 @@ LoginWindow::LoginWindow(QWidget *parent) :
     ui(new Ui::LoginWindow)
 {
     ui->setupUi(this);
+    this->move(100,100);
+  //  QDesktopWidget qdw = ;
+//    int scrWdth=qdw.screen()->width();
+//    int scrHght=qdw.screen()->height();
+//    int width=this->frameGeometry().width();
+//    int height=this->frameGeometry().height();
+//    this->setGeometry(((scrWdth/2)-(width/2)),((scrHght/2)-(height/2)),width,height);
 }
 
 LoginWindow::~LoginWindow()
 {
     delete ui;
 }
+
+
 
 void LoginWindow::on_loginButton_clicked()
 {

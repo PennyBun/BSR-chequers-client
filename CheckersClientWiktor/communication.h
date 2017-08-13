@@ -3,7 +3,7 @@
 #include <QtNetwork>
 #include "command.h"
 #include <unordered_map>
-#include <string.h>
+
 class Communication: public QObject
 {
         Q_OBJECT
@@ -14,19 +14,22 @@ public:
     void login(QString login, QString password);
     void regist(QString login, QString password);
     void sendCommand(command cmnd, QString prm1 = QString(), QString prm2 = QString(),QString prm3 = QString() ,QString prm4 = QString() );
-
+    void refreshPlayersList();
 public slots:
     void connected();
     void disconnected();
     void bytesWritten(qint64 bytes);
     void readyRead();
+signals:
+    void commandReceived(fullCommand fllCmmnd);
 private:
     QTcpSocket *socket;
     bool waitingLogin =0;
     bool waitingRegister = 0;
     QString id;
     QString password;
-    std::unordered_map<std::string, command> commandMap;
+    QHash<QString, command> commandMap;
+    fullCommand parse(QString notParsedCommand);
 };
 
 #endif // COMMUNICATION_H

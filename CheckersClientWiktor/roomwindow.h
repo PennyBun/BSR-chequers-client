@@ -14,6 +14,7 @@ class RoomWindow : public QDialog
 public:
     explicit RoomWindow(QWidget *parent = 0);
     ~RoomWindow();
+     void setUser(QString user);
 
 private:
     Ui::RoomWindow *ui;

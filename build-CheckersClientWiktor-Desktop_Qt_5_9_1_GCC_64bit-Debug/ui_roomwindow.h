@@ -14,19 +14,104 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QDialog>
+#include <QtWidgets/QGridLayout>
+#include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
+#include <QtWidgets/QLabel>
+#include <QtWidgets/QListView>
+#include <QtWidgets/QPushButton>
+#include <QtWidgets/QSpacerItem>
+#include <QtWidgets/QVBoxLayout>
 
 QT_BEGIN_NAMESPACE
 
 class Ui_RoomWindow
 {
 public:
+    QGridLayout *gridLayout;
+    QVBoxLayout *verticalLayout;
+    QGridLayout *gridLayout_2;
+    QLabel *label;
+    QPushButton *logoutPushButton;
+    QListView *listView;
+    QHBoxLayout *horizontalLayout;
+    QSpacerItem *horizontalSpacer;
+    QPushButton *refreshPushButton;
+    QSpacerItem *horizontalSpacer_2;
+    QVBoxLayout *verticalLayout_2;
+    QPushButton *invitePushButton;
+    QSpacerItem *verticalSpacer;
+    QLabel *userLabel;
 
     void setupUi(QDialog *RoomWindow)
     {
         if (RoomWindow->objectName().isEmpty())
             RoomWindow->setObjectName(QStringLiteral("RoomWindow"));
-        RoomWindow->resize(400, 300);
+        RoomWindow->resize(422, 301);
+        gridLayout = new QGridLayout(RoomWindow);
+        gridLayout->setObjectName(QStringLiteral("gridLayout"));
+        verticalLayout = new QVBoxLayout();
+        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
+        gridLayout_2 = new QGridLayout();
+        gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
+        label = new QLabel(RoomWindow);
+        label->setObjectName(QStringLiteral("label"));
+
+        gridLayout_2->addWidget(label, 0, 1, 1, 1);
+
+        logoutPushButton = new QPushButton(RoomWindow);
+        logoutPushButton->setObjectName(QStringLiteral("logoutPushButton"));
+
+        gridLayout_2->addWidget(logoutPushButton, 3, 2, 1, 1);
+
+        listView = new QListView(RoomWindow);
+        listView->setObjectName(QStringLiteral("listView"));
+
+        gridLayout_2->addWidget(listView, 1, 1, 1, 1);
+
+        horizontalLayout = new QHBoxLayout();
+        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
+        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout->addItem(horizontalSpacer);
+
+        refreshPushButton = new QPushButton(RoomWindow);
+        refreshPushButton->setObjectName(QStringLiteral("refreshPushButton"));
+
+        horizontalLayout->addWidget(refreshPushButton);
+
+        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout->addItem(horizontalSpacer_2);
+
+
+        gridLayout_2->addLayout(horizontalLayout, 3, 1, 1, 1);
+
+        verticalLayout_2 = new QVBoxLayout();
+        verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
+        invitePushButton = new QPushButton(RoomWindow);
+        invitePushButton->setObjectName(QStringLiteral("invitePushButton"));
+
+        verticalLayout_2->addWidget(invitePushButton);
+
+        verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+        verticalLayout_2->addItem(verticalSpacer);
+
+
+        gridLayout_2->addLayout(verticalLayout_2, 1, 2, 1, 1);
+
+        userLabel = new QLabel(RoomWindow);
+        userLabel->setObjectName(QStringLiteral("userLabel"));
+
+        gridLayout_2->addWidget(userLabel, 0, 2, 1, 1);
+
+
+        verticalLayout->addLayout(gridLayout_2);
+
+
+        gridLayout->addLayout(verticalLayout, 0, 0, 1, 1);
+
 
         retranslateUi(RoomWindow);
 
@@ -36,6 +121,11 @@ public:
     void retranslateUi(QDialog *RoomWindow)
     {
         RoomWindow->setWindowTitle(QApplication::translate("RoomWindow", "Dialog", Q_NULLPTR));
+        label->setText(QApplication::translate("RoomWindow", "Lista graczy", Q_NULLPTR));
+        logoutPushButton->setText(QApplication::translate("RoomWindow", "Wyloguj", Q_NULLPTR));
+        refreshPushButton->setText(QApplication::translate("RoomWindow", "Od\305\233wie\305\274 list\304\231", Q_NULLPTR));
+        invitePushButton->setText(QApplication::translate("RoomWindow", "Zapro\305\233 do gry", Q_NULLPTR));
+        userLabel->setText(QApplication::translate("RoomWindow", "user", Q_NULLPTR));
     } // retranslateUi
 
 };

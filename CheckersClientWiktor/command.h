@@ -1,5 +1,6 @@
 #ifndef COMMANDS_H
 #define COMMANDS_H
+#include <QString>
 enum command{
     LGN,
     CRA,
@@ -15,7 +16,16 @@ enum command{
     LGO,
     ERR,
     ERS,
-    MOV
+    MOV,
+    INTERNAL_ERROR
 
 };
+struct fullCommand{
+    command com;
+    QString prm1;
+    QString prm2;
+    QString prm3;
+    QString prm4;
+};
+
 #endif // COMMANDS_H

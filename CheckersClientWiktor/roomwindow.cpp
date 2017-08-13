@@ -12,3 +12,8 @@ RoomWindow::~RoomWindow()
 {
     delete ui;
 }
+
+void RoomWindow::setUser(QString user)
+{
+    ui->userLabel->setText(user);
+}
