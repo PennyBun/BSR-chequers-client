@@ -17,6 +17,8 @@ public:
 public slots:
     void login(QString login, QString password);
     void regist (QString login, QString password);
+    void commandReceived(fullCommand fllCmmnd);
+
 private:
     LoginWindow loginWindow;
     Communication* comm;

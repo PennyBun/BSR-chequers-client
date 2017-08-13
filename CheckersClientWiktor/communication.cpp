@@ -1,5 +1,6 @@
 #include "communication.h"
 #include <iostream>
+#include <string>
 Communication::Communication(QObject *parent):
     QObject(parent),
     socket(new QTcpSocket(this))
@@ -25,7 +26,8 @@ Communication::Communication(QObject *parent):
        {"LGO",LGO},
        {"ERR",ERR},
        {"ERS",ERS},
-       {"MOV",MOV}
+       {"MOV",MOV},
+       {"INTERNAL_ERROR",INTERNAL_ERROR}
     });
 //    for(auto& p : commandMap)
 //    {
@@ -92,53 +94,6 @@ void Communication::sendCommand(command cmnd, QString prm1, QString prm2, QStrin
             break;
         }
     }
-//    switch(cmnd){
-//    case LGN:
-//        cmndToSend = "LGN";
-//        break;
-//    case CRA:
-//        cmndToSend = "CRA";
-//        break;
-//    case LSP:
-//        cmndToSend = "LSP";
-//        break;
-//    case RFP:
-//        cmndToSend = "RFP";
-//        break;
-//    case RP1:
-//        cmndToSend = "RP1";
-//        break;
-//    case RP2:
-//        cmndToSend = "RP2";
-//        break;
-//    case INI:
-//        cmndToSend = "INI";
-//        break;
-//    case CHB:
-//        cmndToSend = "CHB";
-//        break;
-//    case YMV:
-//        cmndToSend = "YMV";
-//        break;
-//    case GVU:
-//        cmndToSend = "GVU";
-//        break;
-//    case EOG:
-//        cmndToSend = "EOG";
-//        break;
-//    case LGO:
-//        cmndToSend = "LGO";
-//        break;
-//    case ERR:
-//        cmndToSend = "ERR";
-//        break;
-//    case ERS:
-//        cmndToSend = "ERS";
-//        break;
-//    case MOV:
-//        cmndToSend = "MOV";
-//        break;
-//    }
     QStringList cmndList;
     cmndList <<cmndToSend;
     if(!prm1.isNull())
@@ -189,6 +144,43 @@ void Communication::bytesWritten(qint64 bytes)
 
 void Communication::readyRead()
 {
-    qDebug() << "Reading...";
-    qDebug() << socket->readAll();
+    emit commandReceived(parse(socket->readAll()));
+//    qDebug() << "Reading...";
+//    qDebug() << socket->readAll();
+}
+
+fullCommand Communication::parse(QString notParsedCommand)
+{
+    notParsedCommand=notParsedCommand.trimmed();
+    QStringList splitedCommand;
+    splitedCommand = notParsedCommand.split('#');
+    int numberOfParameters = splitedCommand.count()-1;
+    fullCommand fllCmmnd;
+    std::string commandString = splitedCommand[0].toString();
+
+//    auto search = commandMap.find(commandString);
+
+//    if(search!=commandMap.end())
+//    {
+//        fllCmmnd.com=search->second;
+//    }
+//    else
+//    {
+//        fllCmmnd.com=INTERNAL_ERROR;
+//    }
+
+    switch(numberOfParameters)
+    {
+    case 4:
+        fllCmmnd.prm4=splitedCommand[4];
+    case 3:
+        fllCmmnd.prm3=splitedCommand[3];
+    case 2:
+        fllCmmnd.prm2=splitedCommand[2];
+    case 1:
+        fllCmmnd.prm1=splitedCommand[1];
+    default:
+        break;
+    }
+    return fllCmmnd;
 }

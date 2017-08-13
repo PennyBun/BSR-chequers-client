@@ -12,6 +12,7 @@ Controler::Controler(QObject *parent):
     comm = new Communication();
     connect(&loginWindow, SIGNAL(login(QString,QString)), this, SLOT(login(QString,QString)));
     connect(&loginWindow, SIGNAL(regist(QString,QString)), this, SLOT(regist(QString,QString)));
+    connect(comm, SIGNAL(commandReceived(fullCommand)),this,SLOT(commandReceived(fullCommand)));
 }
 
 Controler::~Controler()
@@ -55,4 +56,9 @@ void Controler::login(QString login, QString password)
 void Controler::regist(QString login, QString password)
 {
     comm->regist(login,password);
+}
+
+void Controler::commandReceived(fullCommand fllCmmnd)
+{
+
 }
