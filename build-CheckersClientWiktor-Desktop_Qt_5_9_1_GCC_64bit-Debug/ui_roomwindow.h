@@ -18,7 +18,7 @@
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
-#include <QtWidgets/QListView>
+#include <QtWidgets/QListWidget>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QVBoxLayout>
@@ -33,15 +33,19 @@ public:
     QGridLayout *gridLayout_2;
     QLabel *label;
     QPushButton *logoutPushButton;
-    QListView *listView;
     QHBoxLayout *horizontalLayout;
     QSpacerItem *horizontalSpacer;
     QPushButton *refreshPushButton;
     QSpacerItem *horizontalSpacer_2;
     QVBoxLayout *verticalLayout_2;
     QPushButton *invitePushButton;
+    QSpacerItem *verticalSpacer_2;
+    QLabel *waitingLabel;
     QSpacerItem *verticalSpacer;
+    QLabel *label_2;
     QLabel *userLabel;
+    QSpacerItem *verticalSpacer_3;
+    QListWidget *listWidget;
 
     void setupUi(QDialog *RoomWindow)
     {
@@ -63,11 +67,6 @@ public:
         logoutPushButton->setObjectName(QStringLiteral("logoutPushButton"));
 
         gridLayout_2->addWidget(logoutPushButton, 3, 2, 1, 1);
-
-        listView = new QListView(RoomWindow);
-        listView->setObjectName(QStringLiteral("listView"));
-
-        gridLayout_2->addWidget(listView, 1, 1, 1, 1);
 
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
@@ -94,17 +93,46 @@ public:
 
         verticalLayout_2->addWidget(invitePushButton);
 
+        verticalSpacer_2 = new QSpacerItem(10, 10, QSizePolicy::Minimum, QSizePolicy::Minimum);
+
+        verticalLayout_2->addItem(verticalSpacer_2);
+
+        waitingLabel = new QLabel(RoomWindow);
+        waitingLabel->setObjectName(QStringLiteral("waitingLabel"));
+        waitingLabel->setEnabled(true);
+        QFont font;
+        font.setPointSize(10);
+        waitingLabel->setFont(font);
+        waitingLabel->setAlignment(Qt::AlignCenter);
+        waitingLabel->setWordWrap(true);
+
+        verticalLayout_2->addWidget(waitingLabel);
+
         verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
         verticalLayout_2->addItem(verticalSpacer);
 
+        label_2 = new QLabel(RoomWindow);
+        label_2->setObjectName(QStringLiteral("label_2"));
 
-        gridLayout_2->addLayout(verticalLayout_2, 1, 2, 1, 1);
+        verticalLayout_2->addWidget(label_2);
 
         userLabel = new QLabel(RoomWindow);
         userLabel->setObjectName(QStringLiteral("userLabel"));
 
-        gridLayout_2->addWidget(userLabel, 0, 2, 1, 1);
+        verticalLayout_2->addWidget(userLabel);
+
+        verticalSpacer_3 = new QSpacerItem(20, 5, QSizePolicy::Minimum, QSizePolicy::Minimum);
+
+        verticalLayout_2->addItem(verticalSpacer_3);
+
+
+        gridLayout_2->addLayout(verticalLayout_2, 1, 2, 1, 1);
+
+        listWidget = new QListWidget(RoomWindow);
+        listWidget->setObjectName(QStringLiteral("listWidget"));
+
+        gridLayout_2->addWidget(listWidget, 1, 1, 1, 1);
 
 
         verticalLayout->addLayout(gridLayout_2);
@@ -125,6 +153,8 @@ public:
         logoutPushButton->setText(QApplication::translate("RoomWindow", "Wyloguj", Q_NULLPTR));
         refreshPushButton->setText(QApplication::translate("RoomWindow", "Od\305\233wie\305\274 list\304\231", Q_NULLPTR));
         invitePushButton->setText(QApplication::translate("RoomWindow", "Zapro\305\233 do gry", Q_NULLPTR));
+        waitingLabel->setText(QApplication::translate("RoomWindow", "Oczekiwanie na odpowied\305\272 u\305\274ytkownika", Q_NULLPTR));
+        label_2->setText(QApplication::translate("RoomWindow", "Tw\303\263j login:", Q_NULLPTR));
         userLabel->setText(QApplication::translate("RoomWindow", "user", Q_NULLPTR));
     } // retranslateUi
 

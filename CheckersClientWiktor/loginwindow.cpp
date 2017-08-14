@@ -1,5 +1,6 @@
 #include "loginwindow.h"
 #include "ui_loginwindow.h"
+#include <QMessageBox>
 
 LoginWindow::LoginWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -7,6 +8,11 @@ LoginWindow::LoginWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     this->move(100,100);
+    re= new QRegularExpression("[a-zA-Z0-9]*");
+    v= new QRegularExpressionValidator(*re, 0);
+//    ui->loginLineEdit->setValidator(v);
+//    ui->passwordLineEdit->setValidator(v);
+
   //  QDesktopWidget qdw = ;
 //    int scrWdth=qdw.screen()->width();
 //    int scrHght=qdw.screen()->height();
@@ -20,11 +26,31 @@ LoginWindow::~LoginWindow()
     delete ui;
 }
 
+void LoginWindow::clearFields()
+{
+    ui->loginLineEdit->setText("");
+    ui->passwordLineEdit->setText("");
+}
+
 
 
 void LoginWindow::on_loginButton_clicked()
 {
-    emit login(id,password);
+//    QString a = ui->loginLineEdit->text();
+//    QString b = ui->passwordLineEdit->text();
+//    if(v->validate(a,0)!=QValidator::Invalid &
+//            v->validate(b,0)!=QValidator::Invalid)
+//    {
+        emit login(id,password);
+//    }
+//    else
+//    {
+//        QMessageBox msgBox;
+//        msgBox.setWindowTitle("Warcaby");
+//        msgBox.setText("Login oraz hasło mogą składać się tylko ze znaków alfanumerycznych");
+//        msgBox.exec();
+//        changeState(defaultState);
+//    }
 }
 
 void LoginWindow::on_loginLineEdit_textChanged(const QString &arg1)
@@ -40,5 +66,17 @@ void LoginWindow::on_passwordLineEdit_textChanged(const QString &arg1)
 
 void LoginWindow::on_registerButton_clicked()
 {
-    emit regist(id,password);
+//    if(v->validate(ui->loginLineEdit->text(),0)!=QValidator::Invalid &
+//            v->validate(ui->passwordLineEdit->text(),0)!=QValidator::Invalid)
+//    {
+        emit regist(id,password);
+//    }
+//    else
+//    {
+//        QMessageBox msgBox;
+//        msgBox.setWindowTitle("Warcaby");
+//        msgBox.setText("Login oraz hasło mogą składać się tylko ze znaków alfanumerycznych");
+//        msgBox.exec();
+//        changeState(defaultState);
+//    }
 }

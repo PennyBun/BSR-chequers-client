@@ -8,6 +8,7 @@ public:
     Player();
     QString name;
     bool free;
+    bool operator <(const Player& l);
 };
 
 #endif // PLAYER_H

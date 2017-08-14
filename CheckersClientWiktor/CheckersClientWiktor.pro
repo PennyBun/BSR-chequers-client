@@ -32,7 +32,8 @@ SOURCES += \
     roomwindow.cpp \
     communication.cpp \
     fullcommand.cpp \
-    player.cpp
+    player.cpp \
+    gamewindow.cpp
 
 HEADERS += \
         loginwindow.h \
@@ -41,8 +42,11 @@ HEADERS += \
     roomwindow.h \
     communication.h \
     fullcommand.h \
-    player.h
+    player.h \
+    state.h \
+    gamewindow.h
 
 FORMS += \
         loginwindow.ui \
-    roomwindow.ui
+    roomwindow.ui \
+    gamewindow.ui

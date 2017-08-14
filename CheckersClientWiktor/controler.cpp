@@ -1,6 +1,7 @@
 #include "controler.h"
 #include <QApplication>
 #include <QMessageBox>
+#include <QDebug>
 Controler::Controler(QObject *parent):
 
     QObject(parent)
@@ -13,6 +14,9 @@ Controler::Controler(QObject *parent):
     connect(&loginWindow, SIGNAL(login(QString,QString)), this, SLOT(login(QString,QString)));
     connect(&loginWindow, SIGNAL(regist(QString,QString)), this, SLOT(regist(QString,QString)));
     connect(comm, SIGNAL(commandReceived(fullCommand)),this,SLOT(commandReceived(fullCommand)));
+    connect(&roomWindow,SIGNAL(refreshButtonSignal()),this,SLOT(refreshButtonSlot()));
+    connect(&roomWindow,SIGNAL(logout()),this,SLOT(logout()));
+    connect(&roomWindow,SIGNAL(invite(QString)),this,SLOT(invite(QString)));
 }
 
 Controler::~Controler()
@@ -79,6 +83,9 @@ void Controler::commandReceived(fullCommand fllCmmnd)
     case LSP_WFR:
         LSP_WFRcommandAnalyser(fllCmmnd);
         break;
+    case RFP_WFR:
+        RFP_WFRcommandAnalyser(fllCmmnd);
+        break;
     case WAITR  :
         WAITRcommandAnalyser(fllCmmnd);
         break;
@@ -91,6 +98,26 @@ void Controler::commandReceived(fullCommand fllCmmnd)
     default:
         break;
     }
+}
+
+void Controler::refreshButtonSlot()
+{
+    refreshPlayersList();
+}
+
+void Controler::logout()
+{
+    comm->sendCommand(LGO);
+    changeState(NLG);
+    roomWindow.close();
+    loginWindow.show();
+}
+
+void Controler::invite(QString user)
+{
+    comm->sendCommand(RFP,user);
+    changeState(RFP_WFR);
+    invitedUser=user;
 }
 
 void Controler::changeState(state nextState)
@@ -116,6 +143,9 @@ void Controler::changeState(state nextState)
             break;
         case WAITG  :
             qDebug()<<"state: WAITG";
+            roomWindow.waitingForPlayerResponse(false);
+            roomWindow.close();
+            gameWindow.show();
 
             break;
         case GAME   :
@@ -123,6 +153,7 @@ void Controler::changeState(state nextState)
 
             break;
     }
+    prvState=crrState;
     crrState=nextState;
 
 }
@@ -139,6 +170,7 @@ void Controler::LGN_WFRcommandAnalyser(fullCommand fllCmmnd)
             changeState(ROOM);
             openRoomWindow();
             loginWindow.close();
+            loginWindow.clearFields();
         }
         else if(fllCmmnd.par1()=="0")
         {
@@ -238,45 +270,27 @@ void Controler::CRA_WFRcommandAnalyser(fullCommand fllCmmnd)
 
 void Controler::ROOMcommandAnalyser(fullCommand fllCmmnd)
 {
-
-}
-
-void Controler::LSP_WFRcommandAnalyser(fullCommand fllCmmnd)
-{
     state defaultState = ROOM;
     switch (fllCmmnd.com)
     {
-    case LSP:
+    case RP1:
         {
-            int parNumber = fllCmmnd.parameters.length();
-            Player tempPlayer;
-            for(int i =0;i<parNumber;i++)
-            {
-                if(i%2==0){
-                    tempPlayer.name=fllCmmnd.parameters[i];
-                }
-                else
-                {
-                    if(fllCmmnd.parameters[i]=="A")
-                    {
-                        tempPlayer.free=true;
-                    }
-                    else if(fllCmmnd.parameters[i]=="B")
-                    {
-                        tempPlayer.free=false;
-                    }
-                    else{
-                        QMessageBox msgBox;
-                        msgBox.setWindowTitle("Warcaby");
-                        msgBox.setText("Błąd protokołu!");
-                        msgBox.exec();
-                        changeState(defaultState);
-                    }
-                    playersList.push_back(tempPlayer);
-                }
+            QString question = "Otrzymałeś zaproszenie do gry od użytkownika '";
+            question += fllCmmnd.par1();
+            question += "'. Czy chcesz z nim zagrać?";
+            QMessageBox::StandardButton reply;
+            reply = QMessageBox::question(&roomWindow, "Zaproszenie do gry", question ,QMessageBox::No|QMessageBox::Yes);
+
+            if (reply == QMessageBox::Yes) {
+                comm->sendCommand(RP1,"1");
+                changeState(WAITG);
+
+            } else {
+                comm->sendCommand(RP1,"0");
             }
         }
         break;
+
     case ERR:
     {
         QMessageBox msgBox;
@@ -297,9 +311,187 @@ void Controler::LSP_WFRcommandAnalyser(fullCommand fllCmmnd)
     }
 }
 
+void Controler::LSP_WFRcommandAnalyser(fullCommand fllCmmnd)
+{
+    state defaultState = ROOM;
+    switch (fllCmmnd.com)
+    {
+    case LSP:
+    {
+        int parNumber = fllCmmnd.parameters.length();
+        Player tempPlayer;
+        playersList.clear();
+        for(int i =0;i<parNumber;i++)
+        {
+
+            if(i%2==0){
+
+                tempPlayer.name=fllCmmnd.parameters[i];
+
+            }
+            else
+            {
+                if(fllCmmnd.parameters[i]=="A")
+                {
+                    tempPlayer.free=true;
+                }
+                else if(fllCmmnd.parameters[i]=="B")
+                {
+                    tempPlayer.free=false;
+                }
+                else{
+                    QMessageBox msgBox;
+                    msgBox.setWindowTitle("Warcaby");
+                    msgBox.setText("Błąd protokołu!");
+                    msgBox.exec();
+                    changeState(defaultState);
+                }
+                playersList.push_back(tempPlayer);
+            }
+        }
+        for (std::list<Player>::iterator a = playersList.begin(), end =playersList.end() ; a !=end; ++a )
+        {
+
+          //  qDebug()<<end->name;// <<" "<<end;
+            if(a->name==user)
+            {
+                a=playersList.erase(a);
+            }
+        }
+        playersList.sort();
+
+        roomWindow.refreshPlayersList(playersList);
+        changeState(defaultState);
+    }
+    break;
+    case ERR:
+    {
+        QMessageBox msgBox;
+        msgBox.setWindowTitle("Warcaby");
+        msgBox.setText("Błąd protokołu!");
+        msgBox.exec();
+        changeState(defaultState);
+    }
+        break;
+    case ERS:
+        break;
+    default:
+    {
+        unexpectedCommand();
+        changeState(defaultState);
+    }
+        break;
+    }
+}
+
+void Controler::RFP_WFRcommandAnalyser(fullCommand fllCmmnd)
+{
+    state defaultState = ROOM;
+    switch (fllCmmnd.com)
+    {
+    case RFP:
+        {
+            if(fllCmmnd.par1()=="1")
+            {
+                changeState(WAITR);
+                roomWindow.waitingForPlayerResponse(true,invitedUser);
+
+            }
+            else if(fllCmmnd.par1()=="0")
+            {
+                QMessageBox msgBox;
+                msgBox.setWindowTitle("Warcaby");
+                msgBox.setText("Nie można zaprosić użytkownika do gry.");
+                msgBox.exec();
+                changeState(defaultState);
+                refreshPlayersList();
+            }
+            else{
+                QMessageBox msgBox;
+                msgBox.setWindowTitle("Warcaby");
+                msgBox.setText("Błąd protokołu!");
+                msgBox.setInformativeText("Otrzymano nieprawidłowy parametr");
+                msgBox.exec();
+                changeState(defaultState);
+            }
+        }
+        break;
+
+    case ERR:
+    {
+        QMessageBox msgBox;
+        msgBox.setWindowTitle("Warcaby");
+        msgBox.setText("Nie można zaprosić użytkownika do gry.");
+        msgBox.exec();
+        changeState(defaultState);
+        refreshPlayersList();
+    }
+        break;
+    case ERS:
+        break;
+    default:
+    {
+        unexpectedCommand();
+        changeState(defaultState);
+    }
+        break;
+    }
+}
+
 void Controler::WAITRcommandAnalyser(fullCommand fllCmmnd)
 {
+    state defaultState = WAITR;
+    switch (fllCmmnd.com)
+    {
+    case RP2:
+        {
+            if(fllCmmnd.par1()=="1")
+            {
+                changeState(WAITG);
 
+
+            }
+            else if(fllCmmnd.par1()=="0")
+            {
+
+                QMessageBox msgBox;
+                msgBox.setWindowTitle("Warcaby");
+                msgBox.setText("Użytkownik "+user+" odrzucił zaproszenie do gry");
+                msgBox.exec();
+                changeState(ROOM);
+                roomWindow.waitingForPlayerResponse(false);
+                //refreshPlayersList();
+            }
+            else{
+                QMessageBox msgBox;
+                msgBox.setWindowTitle("Warcaby");
+                msgBox.setText("Błąd protokołu!");
+                msgBox.setInformativeText("Otrzymano nieprawidłowy parametr");
+                msgBox.exec();
+                changeState(defaultState);
+            }
+        }
+        break;
+
+
+    case ERR:
+    {
+        QMessageBox msgBox;
+        msgBox.setWindowTitle("Warcaby");
+        msgBox.setText("Błąd protokołu!");
+        msgBox.exec();
+        changeState(defaultState);
+    }
+        break;
+    case ERS:
+        break;
+    default:
+    {
+        unexpectedCommand();
+        changeState(defaultState);
+    }
+        break;
+    }
 }
 
 void Controler::WAITGcommandAnalyser(fullCommand fllCmmnd)
