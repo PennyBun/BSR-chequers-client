@@ -2,7 +2,7 @@
 #define GAMEWINDOW_H
 
 #include <QDialog>
-
+#include "board.h"
 namespace Ui {
 class GameWindow;
 }
@@ -17,6 +17,8 @@ public:
 
 private:
     Ui::GameWindow *ui;
+    Board* board;
+    QPushButton* giveUpButton;
 };
 
 #endif // GAMEWINDOW_H

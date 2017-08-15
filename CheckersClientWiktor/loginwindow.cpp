@@ -10,8 +10,8 @@ LoginWindow::LoginWindow(QWidget *parent) :
     this->move(100,100);
     re= new QRegularExpression("[a-zA-Z0-9]*");
     v= new QRegularExpressionValidator(*re, 0);
-//    ui->loginLineEdit->setValidator(v);
-//    ui->passwordLineEdit->setValidator(v);
+   // ui->loginLineEdit->setValidator(v);
+    //ui->passwordLineEdit->setValidator(v);
 
   //  QDesktopWidget qdw = ;
 //    int scrWdth=qdw.screen()->width();
@@ -36,21 +36,23 @@ void LoginWindow::clearFields()
 
 void LoginWindow::on_loginButton_clicked()
 {
-//    QString a = ui->loginLineEdit->text();
-//    QString b = ui->passwordLineEdit->text();
-//    if(v->validate(a,0)!=QValidator::Invalid &
-//            v->validate(b,0)!=QValidator::Invalid)
-//    {
+    QString a = ui->loginLineEdit->text();
+    QString b = ui->passwordLineEdit->text();
+    int pos =0;
+    if(v->validate(a,pos)!=QValidator::Invalid &
+            v->validate(b,pos)!=QValidator::Invalid)
+    {
+
         emit login(id,password);
-//    }
-//    else
-//    {
-//        QMessageBox msgBox;
-//        msgBox.setWindowTitle("Warcaby");
-//        msgBox.setText("Login oraz hasło mogą składać się tylko ze znaków alfanumerycznych");
-//        msgBox.exec();
-//        changeState(defaultState);
-//    }
+    }
+    else
+    {
+        QMessageBox msgBox;
+        msgBox.setWindowTitle("Warcaby");
+        msgBox.setText("Login oraz hasło mogą składać się tylko ze znaków alfanumerycznych");
+        msgBox.exec();
+
+    }
 }
 
 void LoginWindow::on_loginLineEdit_textChanged(const QString &arg1)

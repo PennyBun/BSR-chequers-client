@@ -33,7 +33,10 @@ SOURCES += \
     communication.cpp \
     fullcommand.cpp \
     player.cpp \
-    gamewindow.cpp
+    gamewindow.cpp \
+    board.cpp \
+    square.cpp \
+    piece.cpp
 
 HEADERS += \
         loginwindow.h \
@@ -44,7 +47,10 @@ HEADERS += \
     fullcommand.h \
     player.h \
     state.h \
-    gamewindow.h
+    gamewindow.h \
+    board.h \
+    square.h \
+    piece.h
 
 FORMS += \
         loginwindow.ui \

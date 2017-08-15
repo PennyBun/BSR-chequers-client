@@ -14,12 +14,9 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QDialog>
-#include <QtWidgets/QGraphicsView>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
-#include <QtWidgets/QPushButton>
-#include <QtWidgets/QVBoxLayout>
 
 QT_BEGIN_NAMESPACE
 
@@ -28,10 +25,6 @@ class Ui_GameWindow
 public:
     QGridLayout *gridLayout;
     QHBoxLayout *horizontalLayout;
-    QGraphicsView *graphicsView;
-    QVBoxLayout *verticalLayout;
-    QGridLayout *gridLayout_2;
-    QPushButton *giveUpPushButton;
 
     void setupUi(QDialog *GameWindow)
     {
@@ -42,26 +35,6 @@ public:
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
-        graphicsView = new QGraphicsView(GameWindow);
-        graphicsView->setObjectName(QStringLiteral("graphicsView"));
-
-        horizontalLayout->addWidget(graphicsView);
-
-        verticalLayout = new QVBoxLayout();
-        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
-        gridLayout_2 = new QGridLayout();
-        gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
-
-        verticalLayout->addLayout(gridLayout_2);
-
-        giveUpPushButton = new QPushButton(GameWindow);
-        giveUpPushButton->setObjectName(QStringLiteral("giveUpPushButton"));
-
-        verticalLayout->addWidget(giveUpPushButton);
-
-
-        horizontalLayout->addLayout(verticalLayout);
-
 
         gridLayout->addLayout(horizontalLayout, 0, 0, 1, 1);
 
@@ -74,7 +47,6 @@ public:
     void retranslateUi(QDialog *GameWindow)
     {
         GameWindow->setWindowTitle(QApplication::translate("GameWindow", "Dialog", Q_NULLPTR));
-        giveUpPushButton->setText(QApplication::translate("GameWindow", "Poddaj\304\231 si\304\231", Q_NULLPTR));
     } // retranslateUi
 
 };
