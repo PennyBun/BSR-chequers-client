@@ -17,6 +17,7 @@ Controler::Controler(QObject *parent):
     connect(&roomWindow,SIGNAL(refreshButtonSignal()),this,SLOT(refreshButtonSlot()));
     connect(&roomWindow,SIGNAL(logout()),this,SLOT(logout()));
     connect(&roomWindow,SIGNAL(invite(QString)),this,SLOT(invite(QString)));
+    connect((gameWindow.board),SIGNAL(squareClickedWithMouseSignal(Square*)),this,SLOT(squareClickedWithMouse(Square*)));
 }
 
 Controler::~Controler()
@@ -24,31 +25,7 @@ Controler::~Controler()
     delete comm;
 }
 
-void Controler::startSession()
-{
-    //socket->connectToHost("35.187.18.31",4000);
-    //socket->connectToHost("bogotobogo.com", 80);
-//    if(socket->waitForConnected(3000))
-//    {
-//        socket->write("LGN#WIK#WIK\r\n");
-//        socket->waitForBytesWritten(1000);
-//        socket->waitForReadyRead(500);
-//        qDebug()<<"Reading : "<< socket->bytesAvailable();
-//        qDebug()<<socket->readAll();
 
-//        QString text;
-//        in>>text;
-//        qDebug()<<text;
-//        socket->write("LGO\r\n");
-//        socket->waitForBytesWritten(1000);
-//        socket->close();
-//    }
-//    else
-//    {
-//        qDebug() << "Not Connected!";
-//    }
-
-}
 
 
 
@@ -95,9 +72,15 @@ void Controler::commandReceived(fullCommand fllCmmnd)
     case GAME   :
         GAMEcommandAnalyser(fllCmmnd);
         break;
+    case MOV_WFR:
+        MOV_WFRcommandAnalyser(fllCmmnd);
+        break;
     default:
         break;
     }
+    qDebug()<<"Got command:";
+    qDebug()<<fllCmmnd.com;
+    qDebug()<<fllCmmnd.parameters;
 }
 
 void Controler::refreshButtonSlot()
@@ -118,6 +101,33 @@ void Controler::invite(QString user)
     comm->sendCommand(RFP,user);
     changeState(RFP_WFR);
     invitedUser=user;
+}
+
+void Controler::squareClickedWithMouse(Square *square)
+{
+
+    qDebug()<<"Clicked square: x= "<<square->x<<" y= "<<square->y;
+    if(!isFirstClicked)
+    {
+        xClicked= square->x;
+        yClicked=square->y;
+        isFirstClicked=true;
+    }
+    else
+    {
+
+        if(xClicked==square->x & yClicked==square->y)
+        {
+            isFirstClicked=false;
+        }
+        else
+        {
+            isFirstClicked=false;
+            comm->sendCommand(MOV,QString::number(xClicked),QString::number(yClicked),QString::number(square->x),QString::number(square->y));
+            changeState(MOV_WFR);
+        }
+    }
+
 }
 
 void Controler::changeState(state nextState)
@@ -152,6 +162,10 @@ void Controler::changeState(state nextState)
             qDebug()<<"state: GAME";
 
             break;
+    case MOV_WFR   :
+        qDebug()<<"state: MOV_WFR";
+
+        break;
     }
     prvState=crrState;
     crrState=nextState;
@@ -284,6 +298,7 @@ void Controler::ROOMcommandAnalyser(fullCommand fllCmmnd)
             if (reply == QMessageBox::Yes) {
                 comm->sendCommand(RP1,"1");
                 changeState(WAITG);
+                invitedUser=fllCmmnd.par1();
 
             } else {
                 comm->sendCommand(RP1,"0");
@@ -293,10 +308,11 @@ void Controler::ROOMcommandAnalyser(fullCommand fllCmmnd)
 
     case ERR:
     {
-        QMessageBox msgBox;
-        msgBox.setWindowTitle("Warcaby");
-        msgBox.setText("Błąd protokołu!");
-        msgBox.exec();
+//        QMessageBox msgBox;
+//        msgBox.setWindowTitle("Warcaby");
+//        msgBox.setText("Błąd protokołu!");
+//        msgBox.exec();
+        protocolError(fllCmmnd);
         changeState(defaultState);
     }
         break;
@@ -340,10 +356,11 @@ void Controler::LSP_WFRcommandAnalyser(fullCommand fllCmmnd)
                     tempPlayer.free=false;
                 }
                 else{
-                    QMessageBox msgBox;
-                    msgBox.setWindowTitle("Warcaby");
-                    msgBox.setText("Błąd protokołu!");
-                    msgBox.exec();
+//                    QMessageBox msgBox;
+//                    msgBox.setWindowTitle("Warcaby");
+//                    msgBox.setText("Błąd protokołu!");
+//                    msgBox.exec();
+                    protocolError(fllCmmnd);
                     changeState(defaultState);
                 }
                 playersList.push_back(tempPlayer);
@@ -366,10 +383,11 @@ void Controler::LSP_WFRcommandAnalyser(fullCommand fllCmmnd)
     break;
     case ERR:
     {
-        QMessageBox msgBox;
-        msgBox.setWindowTitle("Warcaby");
-        msgBox.setText("Błąd protokołu!");
-        msgBox.exec();
+//        QMessageBox msgBox;
+//        msgBox.setWindowTitle("Warcaby");
+//        msgBox.setText("Błąd protokołu!");
+//        msgBox.exec();
+        protocolError(fllCmmnd);
         changeState(defaultState);
     }
         break;
@@ -407,11 +425,12 @@ void Controler::RFP_WFRcommandAnalyser(fullCommand fllCmmnd)
                 refreshPlayersList();
             }
             else{
-                QMessageBox msgBox;
-                msgBox.setWindowTitle("Warcaby");
-                msgBox.setText("Błąd protokołu!");
-                msgBox.setInformativeText("Otrzymano nieprawidłowy parametr");
-                msgBox.exec();
+//                QMessageBox msgBox;
+//                msgBox.setWindowTitle("Warcaby");
+//                msgBox.setText("Błąd protokołu!");
+//                msgBox.setInformativeText("Otrzymano nieprawidłowy parametr");
+//                msgBox.exec();
+                protocolError(fllCmmnd);
                 changeState(defaultState);
             }
         }
@@ -463,11 +482,12 @@ void Controler::WAITRcommandAnalyser(fullCommand fllCmmnd)
                 //refreshPlayersList();
             }
             else{
-                QMessageBox msgBox;
-                msgBox.setWindowTitle("Warcaby");
-                msgBox.setText("Błąd protokołu!");
-                msgBox.setInformativeText("Otrzymano nieprawidłowy parametr");
-                msgBox.exec();
+//                QMessageBox msgBox;
+//                msgBox.setWindowTitle("Warcaby");
+//                msgBox.setText("Błąd protokołu!");
+//                msgBox.setInformativeText("Otrzymano nieprawidłowy parametr");
+//                msgBox.exec();
+                protocolError(fllCmmnd);
                 changeState(defaultState);
             }
         }
@@ -476,10 +496,11 @@ void Controler::WAITRcommandAnalyser(fullCommand fllCmmnd)
 
     case ERR:
     {
-        QMessageBox msgBox;
-        msgBox.setWindowTitle("Warcaby");
-        msgBox.setText("Błąd protokołu!");
-        msgBox.exec();
+//        QMessageBox msgBox;
+//        msgBox.setWindowTitle("Warcaby");
+//        msgBox.setText("Błąd protokołu!");
+//        msgBox.exec();
+        protocolError(fllCmmnd);
         changeState(defaultState);
     }
         break;
@@ -496,21 +517,251 @@ void Controler::WAITRcommandAnalyser(fullCommand fllCmmnd)
 
 void Controler::WAITGcommandAnalyser(fullCommand fllCmmnd)
 {
+    state defaultState = WAITG;
+    switch (fllCmmnd.com)
+    {
+    case INI:
+        {
+            if(fllCmmnd.par1()=="B")
+            {
+                mySide=true;
+                changeState(GAME);
+                gameWindow.uGPanel->player1color=mySide;
+                gameWindow.uGPanel->player2color= !mySide;
+                gameWindow.uGPanel->player1Login=user;
+                gameWindow.uGPanel->player2Login=invitedUser;
+                gameWindow.uGPanel->widgetsActualization();
 
+            }
+            else if(fllCmmnd.par1()=="C")
+            {
+
+               mySide=false;
+               changeState(GAME);
+               gameWindow.uGPanel->player1color=mySide;
+               gameWindow.uGPanel->player2color= !mySide;
+               gameWindow.uGPanel->player1Login=user;
+               gameWindow.uGPanel->player2Login=invitedUser;
+               gameWindow.uGPanel->widgetsActualization();
+            }
+            else{
+//                QMessageBox msgBox;
+//                msgBox.setWindowTitle("Warcaby");
+//                msgBox.setText("Błąd protokołu!");
+//                msgBox.setInformativeText("Otrzymano nieprawidłowy parametr");
+//                msgBox.exec();
+                protocolError(fllCmmnd);
+                changeState(defaultState);
+            }
+        }
+        break;
+
+
+    case ERR:
+    {
+//        QMessageBox msgBox;
+//        msgBox.setWindowTitle("Warcaby");
+//        msgBox.setText("Błąd protokołu!");
+//        msgBox.exec();
+        protocolError(fllCmmnd);
+        changeState(defaultState);
+    }
+        break;
+    case ERS:
+        break;
+    default:
+    {
+        unexpectedCommand();
+        changeState(defaultState);
+    }
+        break;
+    }
 }
 
 void Controler::GAMEcommandAnalyser(fullCommand fllCmmnd)
 {
+    state defaultState = GAME;
+    switch (fllCmmnd.com)
+    {
+    case CHB:
+        {
+            if(fllCmmnd.par1().length()==64)
+            {
+                QString gotBoard=fllCmmnd.par1();
+                for(int i = 0;i<64;i++)
+                {
+                    if(gotBoard[i]== QLatin1Char('B'))
+                    {
+                        piecesTable[i]=white;
+                    }else
+                        if(gotBoard[i]== QLatin1Char('C'))
+                        {
+                            piecesTable[i]=black;
+                        }else
+                            if(gotBoard[i]== QLatin1Char('D'))
+                            {
+                                piecesTable[i]=white_King;
+                            }else
+                                if(gotBoard[i]== QLatin1Char('E'))
+                                {
+                                    piecesTable[i]=black_King;
+                                }else
+                                    if(gotBoard[i]== QLatin1Char('O'))
+                                    {
+                                        piecesTable[i]=not_exists;
+                                    }
+                                    else
+                                    {
+                                        QMessageBox msgBox;
+                                        msgBox.setWindowTitle("Warcaby");
+                                        msgBox.setText("Błąd protokołu!");
+                                        msgBox.exec();
+                                        clearSelection();
+                                    }
+
+                }
+                gameWindow.board->getPiecesTable(piecesTable);
+            }else
+            {
+                QMessageBox msgBox;
+                msgBox.setWindowTitle("Warcaby");
+                msgBox.setText("Błąd protokołu!");
+                msgBox.exec();
+                clearSelection();
+            }
+
+        }
+        break;
+
+    case YMV:
+    {
+        gameWindow.currentPlayer(1);
+         clearSelection();
+    }
+    break;
+    case ERR:
+    {
+        if(fllCmmnd.par1()=="wait for your turn!")
+        {
+            QMessageBox msgBox;
+            msgBox.setWindowTitle("Warcaby");
+            msgBox.setText("Ruch niemożliwy, poczekaj na swoją turę.");
+            msgBox.exec();
+            //clearSelection();
+        }
+        else{
+//        QMessageBox msgBox;
+//        msgBox.setWindowTitle("Warcaby");
+//        msgBox.setText("Błąd protokołu!");
+//        msgBox.exec();
+        protocolError(fllCmmnd);
+
+
+        //changeState(defaultState);
+        }
+        clearSelection();
+    }
+        break;
+    case ERS:
+        clearSelection();
+        break;
+    default:
+    {
+        unexpectedCommand(fllCmmnd);
+        changeState(defaultState);
+        clearSelection();
+    }
+        break;
+    }
 
 }
 
+void Controler::MOV_WFRcommandAnalyser(fullCommand fllCmmnd)
+{
+    state defaultState = GAME;
+    switch (fllCmmnd.com)
+    {
+    case MOV:
+        {
+            if(fllCmmnd.par1()=="1")
+            {
+                gameWindow.currentPlayer(0);
+                changeState(GAME);
+                 //gameWindow.board->clearSelection();
+            }else
+            {
+                QMessageBox msgBox;
+                msgBox.setWindowTitle("Warcaby");
+                msgBox.setText("Ruch niemożliwy do wykonania");
+                msgBox.exec();
+                clearSelection();
+                changeState(GAME);
+            }
+
+        }
+        break;
+
+    case ERR:
+    {
+        if(fllCmmnd.par1()=="wait for your turn!")
+        {
+            QMessageBox msgBox;
+            msgBox.setWindowTitle("Warcaby");
+            msgBox.setText("Ruch niemożliwy, poczekaj na swoją turę.");
+            msgBox.exec();
+            changeState(defaultState);
+        }else
+        {
+//        QMessageBox msgBox;
+//        msgBox.setWindowTitle("Warcaby");
+//        msgBox.setText("Błąd protokołu!");
+//        msgBox.exec();
+        protocolError(fllCmmnd);
+        changeState(defaultState);
+        //clearSelection();
+        }
+        clearSelection();
+    }
+        break;
+    case ERS:
+         clearSelection();
+         changeState(defaultState);
+        break;
+    default:
+    {
+        unexpectedCommand(fllCmmnd);
+        changeState(defaultState);
+         clearSelection();
+    }
+        break;
+    }
+}
+
+void Controler::unexpectedCommand(fullCommand fllCmmnd)
+{
+    QMessageBox msgBox;
+    msgBox.setText("Otrzymano od serwera nieoczekiwaną komendę");
+    msgBox.exec();
+    qDebug()<<"unexpected command:";
+    qDebug()<<fllCmmnd.com<<fllCmmnd.parameters;
+
+}
 void Controler::unexpectedCommand()
 {
     QMessageBox msgBox;
     msgBox.setText("Otrzymano od serwera nieoczekiwaną komendę");
     msgBox.exec();
+
 }
 
+void Controler::protocolError(fullCommand fllCmmnd)
+{
+    QMessageBox msgBox;
+    msgBox.setWindowTitle("Warcaby");
+    msgBox.setText("Błąd protokołu!");
+    msgBox.exec();
+    qDebug()<<"Protocol Error: "<<fllCmmnd.com<<fllCmmnd.parameters;
+}
 void Controler::openRoomWindow()
 {
 
@@ -523,4 +774,10 @@ void Controler::refreshPlayersList()
 {
     comm->sendCommand(LSP);
     changeState(LSP_WFR);
+}
+
+void Controler::clearSelection()
+{
+    isFirstClicked=false;
+     gameWindow.board->clearSelection();
 }

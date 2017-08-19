@@ -29,7 +29,7 @@ private:
     QString id;
     QString password;
     QHash<QString, command> commandMap;
-    fullCommand parse(QString notParsedCommand);
+    void parse(QString notParsedCommand);
 };
 
 #endif // COMMUNICATION_H

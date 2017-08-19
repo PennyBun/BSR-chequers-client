@@ -61,14 +61,20 @@ SOURCES       = ../CheckersClientWiktor/main.cpp \
 		../CheckersClientWiktor/gamewindow.cpp \
 		../CheckersClientWiktor/board.cpp \
 		../CheckersClientWiktor/square.cpp \
-		../CheckersClientWiktor/piece.cpp moc_loginwindow.cpp \
+		../CheckersClientWiktor/piece.cpp \
+		../CheckersClientWiktor/userindicator.cpp \
+		../CheckersClientWiktor/usersgamepanel.cpp \
+		../CheckersClientWiktor/usercolor.cpp moc_loginwindow.cpp \
 		moc_controler.cpp \
 		moc_roomwindow.cpp \
 		moc_communication.cpp \
 		moc_gamewindow.cpp \
 		moc_board.cpp \
 		moc_square.cpp \
-		moc_piece.cpp
+		moc_piece.cpp \
+		moc_userindicator.cpp \
+		moc_usersgamepanel.cpp \
+		moc_usercolor.cpp
 OBJECTS       = main.o \
 		loginwindow.o \
 		controler.o \
@@ -81,6 +87,9 @@ OBJECTS       = main.o \
 		board.o \
 		square.o \
 		piece.o \
+		userindicator.o \
+		usersgamepanel.o \
+		usercolor.o \
 		moc_loginwindow.o \
 		moc_controler.o \
 		moc_roomwindow.o \
@@ -88,7 +97,10 @@ OBJECTS       = main.o \
 		moc_gamewindow.o \
 		moc_board.o \
 		moc_square.o \
-		moc_piece.o
+		moc_piece.o \
+		moc_userindicator.o \
+		moc_usersgamepanel.o \
+		moc_usercolor.o
 DIST          = /home/wiktor/Qt5.9.1/5.9.1/gcc_64/mkspecs/features/spec_pre.prf \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/mkspecs/common/unix.conf \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/mkspecs/common/linux.conf \
@@ -279,7 +291,10 @@ DIST          = /home/wiktor/Qt5.9.1/5.9.1/gcc_64/mkspecs/features/spec_pre.prf 
 		../CheckersClientWiktor/gamewindow.h \
 		../CheckersClientWiktor/board.h \
 		../CheckersClientWiktor/square.h \
-		../CheckersClientWiktor/piece.h ../CheckersClientWiktor/main.cpp \
+		../CheckersClientWiktor/piece.h \
+		../CheckersClientWiktor/userindicator.h \
+		../CheckersClientWiktor/usersgamepanel.h \
+		../CheckersClientWiktor/usercolor.h ../CheckersClientWiktor/main.cpp \
 		../CheckersClientWiktor/loginwindow.cpp \
 		../CheckersClientWiktor/controler.cpp \
 		../CheckersClientWiktor/view.cpp \
@@ -290,7 +305,10 @@ DIST          = /home/wiktor/Qt5.9.1/5.9.1/gcc_64/mkspecs/features/spec_pre.prf 
 		../CheckersClientWiktor/gamewindow.cpp \
 		../CheckersClientWiktor/board.cpp \
 		../CheckersClientWiktor/square.cpp \
-		../CheckersClientWiktor/piece.cpp
+		../CheckersClientWiktor/piece.cpp \
+		../CheckersClientWiktor/userindicator.cpp \
+		../CheckersClientWiktor/usersgamepanel.cpp \
+		../CheckersClientWiktor/usercolor.cpp
 QMAKE_TARGET  = CheckersClientWiktor
 DESTDIR       = 
 TARGET        = CheckersClientWiktor
@@ -686,8 +704,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /home/wiktor/Qt5.9.1/5.9.1/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../CheckersClientWiktor/loginwindow.h ../CheckersClientWiktor/controler.h ../CheckersClientWiktor/view.h ../CheckersClientWiktor/roomwindow.h ../CheckersClientWiktor/communication.h ../CheckersClientWiktor/fullcommand.h ../CheckersClientWiktor/player.h ../CheckersClientWiktor/state.h ../CheckersClientWiktor/gamewindow.h ../CheckersClientWiktor/board.h ../CheckersClientWiktor/square.h ../CheckersClientWiktor/piece.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../CheckersClientWiktor/main.cpp ../CheckersClientWiktor/loginwindow.cpp ../CheckersClientWiktor/controler.cpp ../CheckersClientWiktor/view.cpp ../CheckersClientWiktor/roomwindow.cpp ../CheckersClientWiktor/communication.cpp ../CheckersClientWiktor/fullcommand.cpp ../CheckersClientWiktor/player.cpp ../CheckersClientWiktor/gamewindow.cpp ../CheckersClientWiktor/board.cpp ../CheckersClientWiktor/square.cpp ../CheckersClientWiktor/piece.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../CheckersClientWiktor/loginwindow.h ../CheckersClientWiktor/controler.h ../CheckersClientWiktor/view.h ../CheckersClientWiktor/roomwindow.h ../CheckersClientWiktor/communication.h ../CheckersClientWiktor/fullcommand.h ../CheckersClientWiktor/player.h ../CheckersClientWiktor/state.h ../CheckersClientWiktor/gamewindow.h ../CheckersClientWiktor/board.h ../CheckersClientWiktor/square.h ../CheckersClientWiktor/piece.h ../CheckersClientWiktor/userindicator.h ../CheckersClientWiktor/usersgamepanel.h ../CheckersClientWiktor/usercolor.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../CheckersClientWiktor/main.cpp ../CheckersClientWiktor/loginwindow.cpp ../CheckersClientWiktor/controler.cpp ../CheckersClientWiktor/view.cpp ../CheckersClientWiktor/roomwindow.cpp ../CheckersClientWiktor/communication.cpp ../CheckersClientWiktor/fullcommand.cpp ../CheckersClientWiktor/player.cpp ../CheckersClientWiktor/gamewindow.cpp ../CheckersClientWiktor/board.cpp ../CheckersClientWiktor/square.cpp ../CheckersClientWiktor/piece.cpp ../CheckersClientWiktor/userindicator.cpp ../CheckersClientWiktor/usersgamepanel.cpp ../CheckersClientWiktor/usercolor.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../CheckersClientWiktor/loginwindow.ui ../CheckersClientWiktor/roomwindow.ui ../CheckersClientWiktor/gamewindow.ui $(DISTDIR)/
 
 
@@ -720,9 +738,9 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /home/wiktor/Qt5.9.1/5.9.1/gcc_64/mkspecs/features/data/dummy.cpp
 	g++ -pipe -g -std=gnu++11 -Wall -W -dM -E -o moc_predefs.h /home/wiktor/Qt5.9.1/5.9.1/gcc_64/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_loginwindow.cpp moc_controler.cpp moc_roomwindow.cpp moc_communication.cpp moc_gamewindow.cpp moc_board.cpp moc_square.cpp moc_piece.cpp
+compiler_moc_header_make_all: moc_loginwindow.cpp moc_controler.cpp moc_roomwindow.cpp moc_communication.cpp moc_gamewindow.cpp moc_board.cpp moc_square.cpp moc_piece.cpp moc_userindicator.cpp moc_usersgamepanel.cpp moc_usercolor.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_loginwindow.cpp moc_controler.cpp moc_roomwindow.cpp moc_communication.cpp moc_gamewindow.cpp moc_board.cpp moc_square.cpp moc_piece.cpp
+	-$(DEL_FILE) moc_loginwindow.cpp moc_controler.cpp moc_roomwindow.cpp moc_communication.cpp moc_gamewindow.cpp moc_board.cpp moc_square.cpp moc_piece.cpp moc_userindicator.cpp moc_usersgamepanel.cpp moc_usercolor.cpp
 moc_loginwindow.cpp: /home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QMainWindow \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qmainwindow.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -1123,11 +1141,18 @@ moc_controler.cpp: ../CheckersClientWiktor/loginwindow.h \
 		../CheckersClientWiktor/board.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QWidget \
 		../CheckersClientWiktor/square.h \
+		../CheckersClientWiktor/piece.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGridLayout \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qgridlayout.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qlayout.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qlayoutitem.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qboxlayout.h \
+		../CheckersClientWiktor/usersgamepanel.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QLabel \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qlabel.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qframe.h \
+		../CheckersClientWiktor/usercolor.h \
+		../CheckersClientWiktor/userindicator.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QDebug \
 		../CheckersClientWiktor/controler.h \
 		moc_predefs.h \
@@ -1593,11 +1618,18 @@ moc_gamewindow.cpp: /home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QDialog 
 		../CheckersClientWiktor/board.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QWidget \
 		../CheckersClientWiktor/square.h \
+		../CheckersClientWiktor/piece.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGridLayout \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qgridlayout.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qlayout.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qlayoutitem.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qboxlayout.h \
+		../CheckersClientWiktor/usersgamepanel.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QLabel \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qlabel.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qframe.h \
+		../CheckersClientWiktor/usercolor.h \
+		../CheckersClientWiktor/userindicator.h \
 		../CheckersClientWiktor/gamewindow.h \
 		moc_predefs.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/bin/moc
@@ -1704,6 +1736,7 @@ moc_board.cpp: /home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QWidget \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qvector2d.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtouchdevice.h \
 		../CheckersClientWiktor/square.h \
+		../CheckersClientWiktor/piece.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGridLayout \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qgridlayout.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qlayout.h \
@@ -1714,7 +1747,8 @@ moc_board.cpp: /home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QWidget \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/bin/moc
 	/home/wiktor/Qt5.9.1/5.9.1/gcc_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/home/wiktor/Qt5.9.1/5.9.1/gcc_64/mkspecs/linux-g++ -I'/home/wiktor/Studia/SEM2 III/BSR/chequers_Client_Wiktor/CheckersClientWiktor' -I/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include -I/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets -I/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui -I/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtNetwork -I/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore -I. -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../CheckersClientWiktor/board.h -o moc_board.cpp
 
-moc_square.cpp: /home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QWidget \
+moc_square.cpp: ../CheckersClientWiktor/piece.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QWidget \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qwidget.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtguiglobal.h \
@@ -1923,6 +1957,326 @@ moc_piece.cpp: /home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QWidget \
 		moc_predefs.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/bin/moc
 	/home/wiktor/Qt5.9.1/5.9.1/gcc_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/home/wiktor/Qt5.9.1/5.9.1/gcc_64/mkspecs/linux-g++ -I'/home/wiktor/Studia/SEM2 III/BSR/chequers_Client_Wiktor/CheckersClientWiktor' -I/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include -I/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets -I/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui -I/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtNetwork -I/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore -I. -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../CheckersClientWiktor/piece.h -o moc_piece.cpp
+
+moc_userindicator.cpp: /home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QWidget \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qwidget.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtguiglobal.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qglobal.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qconfig.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtcore-config.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsysinfo.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qlogging.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qflags.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qatomic.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qatomic_msvc.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmutex.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qnumeric.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qversiontagging.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtgui-config.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qwindowdefs.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qnamespace.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qobject.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstring.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qchar.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qbytearray.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qrefcount.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qarraydata.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qlist.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qalgorithms.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qiterator.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qpair.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstringlist.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qregexp.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcoreevent.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmetatype.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qobject_impl.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmargins.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpaintdevice.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qrect.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsize.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qpoint.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpalette.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qcolor.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qrgb.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qrgba64.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qbrush.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qvector.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qmatrix.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpolygon.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qregion.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qdatastream.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qiodevice.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qline.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtransform.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpainterpath.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qimage.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpixelformat.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpixmap.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qshareddata.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qhash.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qfont.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qfontmetrics.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qfontinfo.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qcursor.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qkeysequence.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qevent.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qvariant.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmap.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qdebug.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtextstream.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qlocale.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qset.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcontiguouscache.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qurl.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qurlquery.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfile.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfiledevice.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qvector2d.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtouchdevice.h \
+		../CheckersClientWiktor/userindicator.h \
+		moc_predefs.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/bin/moc
+	/home/wiktor/Qt5.9.1/5.9.1/gcc_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/home/wiktor/Qt5.9.1/5.9.1/gcc_64/mkspecs/linux-g++ -I'/home/wiktor/Studia/SEM2 III/BSR/chequers_Client_Wiktor/CheckersClientWiktor' -I/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include -I/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets -I/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui -I/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtNetwork -I/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore -I. -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../CheckersClientWiktor/userindicator.h -o moc_userindicator.cpp
+
+moc_usersgamepanel.cpp: /home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QWidget \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qwidget.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtguiglobal.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qglobal.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qconfig.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtcore-config.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsysinfo.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qlogging.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qflags.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qatomic.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qatomic_msvc.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmutex.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qnumeric.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qversiontagging.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtgui-config.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qwindowdefs.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qnamespace.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qobject.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstring.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qchar.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qbytearray.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qrefcount.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qarraydata.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qlist.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qalgorithms.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qiterator.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qpair.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstringlist.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qregexp.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcoreevent.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmetatype.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qobject_impl.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmargins.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpaintdevice.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qrect.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsize.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qpoint.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpalette.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qcolor.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qrgb.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qrgba64.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qbrush.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qvector.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qmatrix.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpolygon.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qregion.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qdatastream.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qiodevice.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qline.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtransform.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpainterpath.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qimage.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpixelformat.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpixmap.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qshareddata.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qhash.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qfont.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qfontmetrics.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qfontinfo.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qcursor.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qkeysequence.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qevent.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qvariant.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmap.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qdebug.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtextstream.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qlocale.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qset.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcontiguouscache.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qurl.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qurlquery.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfile.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfiledevice.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qvector2d.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtouchdevice.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QLabel \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qlabel.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qframe.h \
+		../CheckersClientWiktor/usercolor.h \
+		../CheckersClientWiktor/userindicator.h \
+		../CheckersClientWiktor/usersgamepanel.h \
+		moc_predefs.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/bin/moc
+	/home/wiktor/Qt5.9.1/5.9.1/gcc_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/home/wiktor/Qt5.9.1/5.9.1/gcc_64/mkspecs/linux-g++ -I'/home/wiktor/Studia/SEM2 III/BSR/chequers_Client_Wiktor/CheckersClientWiktor' -I/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include -I/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets -I/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui -I/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtNetwork -I/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore -I. -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../CheckersClientWiktor/usersgamepanel.h -o moc_usersgamepanel.cpp
+
+moc_usercolor.cpp: /home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QWidget \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qwidget.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtguiglobal.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qglobal.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qconfig.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtcore-config.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsysinfo.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qlogging.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qflags.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qatomic.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qatomic_msvc.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmutex.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qnumeric.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qversiontagging.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtgui-config.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qwindowdefs.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qnamespace.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qobject.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstring.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qchar.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qbytearray.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qrefcount.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qarraydata.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qlist.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qalgorithms.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qiterator.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qpair.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstringlist.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qregexp.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcoreevent.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmetatype.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qobject_impl.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmargins.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpaintdevice.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qrect.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsize.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qpoint.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpalette.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qcolor.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qrgb.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qrgba64.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qbrush.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qvector.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qmatrix.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpolygon.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qregion.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qdatastream.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qiodevice.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qline.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtransform.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpainterpath.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qimage.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpixelformat.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpixmap.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qshareddata.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qhash.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qfont.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qfontmetrics.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qfontinfo.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qcursor.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qkeysequence.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qevent.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qvariant.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmap.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qdebug.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtextstream.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qlocale.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qset.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcontiguouscache.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qurl.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qurlquery.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfile.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfiledevice.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qvector2d.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtouchdevice.h \
+		../CheckersClientWiktor/usercolor.h \
+		moc_predefs.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/bin/moc
+	/home/wiktor/Qt5.9.1/5.9.1/gcc_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/home/wiktor/Qt5.9.1/5.9.1/gcc_64/mkspecs/linux-g++ -I'/home/wiktor/Studia/SEM2 III/BSR/chequers_Client_Wiktor/CheckersClientWiktor' -I/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include -I/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets -I/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui -I/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtNetwork -I/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore -I. -I/usr/include/c++/5 -I/usr/include/x86_64-linux-gnu/c++/5 -I/usr/include/c++/5/backward -I/usr/lib/gcc/x86_64-linux-gnu/5/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../CheckersClientWiktor/usercolor.h -o moc_usercolor.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -2241,11 +2595,18 @@ main.o: ../CheckersClientWiktor/main.cpp ../CheckersClientWiktor/roomwindow.h \
 		../CheckersClientWiktor/board.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QWidget \
 		../CheckersClientWiktor/square.h \
+		../CheckersClientWiktor/piece.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGridLayout \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qgridlayout.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qlayout.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qlayoutitem.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qboxlayout.h \
+		../CheckersClientWiktor/usersgamepanel.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QLabel \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qlabel.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qframe.h \
+		../CheckersClientWiktor/usercolor.h \
+		../CheckersClientWiktor/userindicator.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QDebug \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QApplication \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qapplication.h \
@@ -2709,11 +3070,18 @@ controler.o: ../CheckersClientWiktor/controler.cpp ../CheckersClientWiktor/contr
 		../CheckersClientWiktor/board.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QWidget \
 		../CheckersClientWiktor/square.h \
+		../CheckersClientWiktor/piece.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGridLayout \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qgridlayout.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qlayout.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qlayoutitem.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qboxlayout.h \
+		../CheckersClientWiktor/usersgamepanel.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QLabel \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qlabel.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qframe.h \
+		../CheckersClientWiktor/usercolor.h \
+		../CheckersClientWiktor/userindicator.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QDebug \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QApplication \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qapplication.h \
@@ -3307,11 +3675,18 @@ gamewindow.o: ../CheckersClientWiktor/gamewindow.cpp ../CheckersClientWiktor/gam
 		../CheckersClientWiktor/board.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QWidget \
 		../CheckersClientWiktor/square.h \
+		../CheckersClientWiktor/piece.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGridLayout \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qgridlayout.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qlayout.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qlayoutitem.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qboxlayout.h \
+		../CheckersClientWiktor/usersgamepanel.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QLabel \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qlabel.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qframe.h \
+		../CheckersClientWiktor/usercolor.h \
+		../CheckersClientWiktor/userindicator.h \
 		ui_gamewindow.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/QVariant \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QAction \
@@ -3332,7 +3707,6 @@ gamewindow.o: ../CheckersClientWiktor/gamewindow.cpp ../CheckersClientWiktor/gam
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qheaderview.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractitemview.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractscrollarea.h \
-		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qframe.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qabstractitemmodel.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qitemselectionmodel.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
@@ -3453,15 +3827,16 @@ board.o: ../CheckersClientWiktor/board.cpp ../CheckersClientWiktor/board.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qvector2d.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtouchdevice.h \
 		../CheckersClientWiktor/square.h \
+		../CheckersClientWiktor/piece.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGridLayout \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qgridlayout.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qlayout.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qlayoutitem.h \
-		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qboxlayout.h \
-		../CheckersClientWiktor/piece.h
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qboxlayout.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o board.o ../CheckersClientWiktor/board.cpp
 
 square.o: ../CheckersClientWiktor/square.cpp ../CheckersClientWiktor/square.h \
+		../CheckersClientWiktor/piece.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QWidget \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qwidget.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -3667,8 +4042,336 @@ piece.o: ../CheckersClientWiktor/piece.cpp ../CheckersClientWiktor/piece.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfile.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfiledevice.h \
 		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qvector2d.h \
-		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtouchdevice.h
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtouchdevice.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpainter.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextoption.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpen.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o piece.o ../CheckersClientWiktor/piece.cpp
+
+userindicator.o: ../CheckersClientWiktor/userindicator.cpp ../CheckersClientWiktor/userindicator.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QWidget \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qwidget.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtguiglobal.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qglobal.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qconfig.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtcore-config.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsysinfo.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qlogging.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qflags.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qatomic.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qatomic_msvc.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmutex.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qnumeric.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qversiontagging.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtgui-config.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qwindowdefs.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qnamespace.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qobject.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstring.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qchar.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qbytearray.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qrefcount.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qarraydata.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qlist.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qalgorithms.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qiterator.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qpair.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstringlist.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qregexp.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcoreevent.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmetatype.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qobject_impl.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmargins.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpaintdevice.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qrect.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsize.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qpoint.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpalette.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qcolor.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qrgb.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qrgba64.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qbrush.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qvector.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qmatrix.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpolygon.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qregion.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qdatastream.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qiodevice.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qline.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtransform.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpainterpath.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qimage.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpixelformat.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpixmap.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qshareddata.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qhash.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qfont.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qfontmetrics.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qfontinfo.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qcursor.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qkeysequence.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qevent.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qvariant.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmap.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qdebug.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtextstream.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qlocale.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qset.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcontiguouscache.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qurl.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qurlquery.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfile.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfiledevice.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qvector2d.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtouchdevice.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpainter.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextoption.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpen.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o userindicator.o ../CheckersClientWiktor/userindicator.cpp
+
+usersgamepanel.o: ../CheckersClientWiktor/usersgamepanel.cpp ../CheckersClientWiktor/usersgamepanel.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QWidget \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qwidget.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtguiglobal.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qglobal.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qconfig.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtcore-config.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsysinfo.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qlogging.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qflags.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qatomic.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qatomic_msvc.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmutex.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qnumeric.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qversiontagging.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtgui-config.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qwindowdefs.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qnamespace.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qobject.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstring.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qchar.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qbytearray.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qrefcount.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qarraydata.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qlist.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qalgorithms.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qiterator.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qpair.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstringlist.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qregexp.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcoreevent.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmetatype.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qobject_impl.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmargins.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpaintdevice.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qrect.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsize.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qpoint.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpalette.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qcolor.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qrgb.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qrgba64.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qbrush.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qvector.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qmatrix.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpolygon.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qregion.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qdatastream.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qiodevice.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qline.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtransform.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpainterpath.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qimage.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpixelformat.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpixmap.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qshareddata.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qhash.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qfont.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qfontmetrics.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qfontinfo.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qcursor.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qkeysequence.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qevent.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qvariant.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmap.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qdebug.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtextstream.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qlocale.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qset.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcontiguouscache.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qurl.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qurlquery.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfile.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfiledevice.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qvector2d.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtouchdevice.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QLabel \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qlabel.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qframe.h \
+		../CheckersClientWiktor/usercolor.h \
+		../CheckersClientWiktor/userindicator.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QGridLayout \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qgridlayout.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qlayout.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qlayoutitem.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qboxlayout.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o usersgamepanel.o ../CheckersClientWiktor/usersgamepanel.cpp
+
+usercolor.o: ../CheckersClientWiktor/usercolor.cpp ../CheckersClientWiktor/usercolor.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/QWidget \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qwidget.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtguiglobal.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qglobal.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qconfig.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtcore-config.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsysinfo.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qlogging.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qflags.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qatomic.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qatomic_msvc.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmutex.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qnumeric.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qversiontagging.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtgui-config.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qwindowdefs.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qnamespace.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qobject.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstring.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qchar.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qbytearray.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qrefcount.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qarraydata.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qlist.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qalgorithms.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qiterator.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qpair.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstringlist.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qregexp.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcoreevent.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmetatype.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qobject_impl.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmargins.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpaintdevice.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qrect.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsize.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qpoint.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpalette.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qcolor.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qrgb.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qrgba64.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qbrush.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qvector.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qmatrix.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpolygon.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qregion.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qdatastream.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qiodevice.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qline.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtransform.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpainterpath.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qimage.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpixelformat.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpixmap.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qshareddata.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qhash.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qfont.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qfontmetrics.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qfontinfo.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qcursor.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qkeysequence.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qevent.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qvariant.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qmap.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qdebug.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qtextstream.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qlocale.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qset.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qcontiguouscache.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qurl.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qurlquery.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfile.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtCore/qfiledevice.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qvector2d.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtouchdevice.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpainter.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qtextoption.h \
+		/home/wiktor/Qt5.9.1/5.9.1/gcc_64/include/QtGui/qpen.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o usercolor.o ../CheckersClientWiktor/usercolor.cpp
 
 moc_loginwindow.o: moc_loginwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_loginwindow.o moc_loginwindow.cpp
@@ -3693,6 +4396,15 @@ moc_square.o: moc_square.cpp
 
 moc_piece.o: moc_piece.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_piece.o moc_piece.cpp
+
+moc_userindicator.o: moc_userindicator.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_userindicator.o moc_userindicator.cpp
+
+moc_usersgamepanel.o: moc_usersgamepanel.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_usersgamepanel.o moc_usersgamepanel.cpp
+
+moc_usercolor.o: moc_usercolor.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_usercolor.o moc_usercolor.cpp
 
 ####### Install
 

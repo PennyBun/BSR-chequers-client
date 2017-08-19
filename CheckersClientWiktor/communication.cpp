@@ -145,33 +145,41 @@ void Communication::bytesWritten(qint64 bytes)
 
 void Communication::readyRead()
 {
-    emit commandReceived(parse(socket->readAll()));
+    parse(socket->readAll());
+    //emit commandReceived(parse(socket->readAll()));
 //    qDebug() << "Reading...";
 //    qDebug() << socket->readAll();
 }
 
-fullCommand Communication::parse(QString notParsedCommand)
+void Communication::parse(QString notParsedCommand)
 {
     notParsedCommand=notParsedCommand.trimmed();
-    QStringList splitedCommand;
-    splitedCommand = notParsedCommand.split('#');
-    int numberOfParameters = splitedCommand.count()-1;
-    fullCommand fllCmmnd;
-    if(commandMap.contains(splitedCommand[0]))
+    QStringList multiCommandsList;
+    multiCommandsList = notParsedCommand.split("\n");
+    for(auto i=multiCommandsList.begin();i!=multiCommandsList.end();++i)
     {
-        fllCmmnd.com=commandMap.value(splitedCommand[0]);
-    }
-    else
-    {
-        fllCmmnd.com=INTERNAL_ERROR;
-    }
-    if(numberOfParameters>0)
-    {
-        for (int i =1;i<splitedCommand.length();i++)
+
+        QStringList splitedCommand;
+        splitedCommand = (*i).split('#');
+        int numberOfParameters = splitedCommand.count()-1;
+        fullCommand fllCmmnd;
+        if(commandMap.contains(splitedCommand[0]))
         {
-            fllCmmnd.parameters.push_back(splitedCommand[i]);
+            fllCmmnd.com=commandMap.value(splitedCommand[0]);
         }
+        else
+        {
+            fllCmmnd.com=INTERNAL_ERROR;
+        }
+        if(numberOfParameters>0)
+        {
+            for (int i =1;i<splitedCommand.length();i++)
+            {
+                fllCmmnd.parameters.push_back(splitedCommand[i]);
+            }
+        }
+        emit commandReceived(fllCmmnd);
     }
 
-    return fllCmmnd;
+   // return fllCmmnd;
 }

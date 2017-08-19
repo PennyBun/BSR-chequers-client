@@ -16,7 +16,7 @@ public:
     explicit Controler(QObject *parent = 0);
     ~Controler();
     void show();
-    void startSession();
+
 
 public slots:
     void login(QString login, QString password);
@@ -25,17 +25,19 @@ public slots:
     void refreshButtonSlot();
     void logout();
     void invite(QString user);
-
+    void squareClickedWithMouse(Square *square);
 
 private:
     QString user;
+    QString invitedUser;
+    bool currentPlayer; //1 - me, 0 - other player
     LoginWindow loginWindow;
     RoomWindow roomWindow;
     GameWindow gameWindow;
     Communication* comm;
     state crrState = NLG;
     state prvState = NLG;
-    QString invitedUser;
+
     void changeState(state nextState);
     void LGN_WFRcommandAnalyser(fullCommand fllCmmnd);
     void NLGcommandAnalyser(fullCommand fllCmmnd);
@@ -46,10 +48,19 @@ private:
     void WAITRcommandAnalyser(fullCommand fllCmmnd);
     void WAITGcommandAnalyser(fullCommand fllCmmnd);
     void GAMEcommandAnalyser(fullCommand fllCmmnd);
+    void MOV_WFRcommandAnalyser(fullCommand fllCmmnd);
+    void unexpectedCommand(fullCommand fllCmmnd);
     void unexpectedCommand();
+    void protocolError(fullCommand fllCmmnd);
     void openRoomWindow();
     void refreshPlayersList();
+    void clearSelection();
+    bool mySide; //0 - Biały, 1 - Czarny
+    bool isFirstClicked;
+    int xClicked,yClicked;
+
      std::list<Player> playersList;
+    PieceState piecesTable[64];
     //QNetworkSession *networkSession;
 
     //QDataStream in;

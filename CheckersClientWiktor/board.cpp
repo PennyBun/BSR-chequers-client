@@ -11,9 +11,11 @@ Board::Board(QWidget *parent) : QWidget(parent)
     setFixedSize(400,400);
     QGridLayout* grid = new QGridLayout;
     //grid->setMargin(0);
+    grid->setAlignment(Qt::AlignCenter);
     setContentsMargins(0,0,0,0);
     this->setLayout(grid);
     squareTable = new Square*[64];
+    piecesTable = new Piece*[64];
     for (int i = 0;i<8;i++)
     {
        // std::vector<Square*> sqRow = new std::vector<Square*>();
@@ -26,12 +28,15 @@ Board::Board(QWidget *parent) : QWidget(parent)
             }else{
                 squareColor=Qt::black;
             }
-            squareTable[i*8+j]=new Square(this,squareColor);
+            squareTable[i*8+j]=new Square(this,squareColor,j,i);
             grid->addWidget(squareTable[i*8+j],i,j);
             QGridLayout* gridSquare = new QGridLayout;
+            gridSquare->setAlignment(Qt::AlignCenter);
             gridSquare->setContentsMargins(0,0,0,0);
             squareTable[i*8+j]->setLayout(gridSquare);
-            gridSquare->addWidget(new Piece(squareTable[i*8+j]));
+            piecesTable[i*8+j]=new Piece(squareTable[i*8+j],not_exists);
+             connect((squareTable[i*8+j]),SIGNAL(squareClickedWithMouse(Square*)),this,SLOT(squareClickedWithMouse(Square*)));
+            gridSquare->addWidget(piecesTable[i*8+j]);
             //Square sq(this,Qt::white);
             //sqRow->push_back(new Square(this,squareColor));
         }
@@ -56,4 +61,33 @@ Board::Board(QWidget *parent) : QWidget(parent)
 //    }
 
 
+}
+
+void Board::getPiecesTable(PieceState gotTable[])
+{
+    for(int i = 0; i<64;i++)
+    {
+        piecesTable[i]->changeState(gotTable[i]);
+        squareTable[i]->selected=false;
+    }
+    update();
+}
+
+void Board::clearSelection()
+{
+    for(int i = 0; i<64;i++)
+    {
+        squareTable[i]->selected=false;
+    }
+    update();
+}
+
+void Board::currentPlayer(bool crrPlr)
+{
+
+}
+
+void Board::squareClickedWithMouse(Square *that)
+{
+    emit squareClickedWithMouseSignal(that);
 }

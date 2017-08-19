@@ -36,7 +36,23 @@ SOURCES += \
     gamewindow.cpp \
     board.cpp \
     square.cpp \
-    piece.cpp
+    piece.cpp \
+    userindicator.cpp \
+ #   board.cpp \
+#    communication.cpp \
+#    controler.cpp \
+#    fullcommand.cpp \
+#    gamewindow.cpp \
+#    loginwindow.cpp \
+#    main.cpp \
+#    piece.cpp \
+#    player.cpp \
+#    roomwindow.cpp \
+#    square.cpp \
+#    userindicator.cpp \
+#    view.cpp \
+   usersgamepanel.cpp \
+    usercolor.cpp
 
 HEADERS += \
         loginwindow.h \
@@ -50,7 +66,23 @@ HEADERS += \
     gamewindow.h \
     board.h \
     square.h \
-    piece.h
+    piece.h \
+    userindicator.h \
+  #  board.h \
+#    communication.h \
+#    controler.h \
+#    fullcommand.h \
+#    gamewindow.h \
+#    loginwindow.h \
+#    piece.h \
+#    player.h \
+#    roomwindow.h \
+#    square.h \
+#    state.h \
+#    userindicator.h \
+#    view.h \
+    usersgamepanel.h \
+   usercolor.h
 
 FORMS += \
         loginwindow.ui \
