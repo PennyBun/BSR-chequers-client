@@ -148,7 +148,7 @@ public:
 
     void retranslateUi(QDialog *RoomWindow)
     {
-        RoomWindow->setWindowTitle(QApplication::translate("RoomWindow", "Dialog", Q_NULLPTR));
+        RoomWindow->setWindowTitle(QApplication::translate("RoomWindow", "Warcaby", Q_NULLPTR));
         label->setText(QApplication::translate("RoomWindow", "Lista graczy", Q_NULLPTR));
         logoutPushButton->setText(QApplication::translate("RoomWindow", "Wyloguj", Q_NULLPTR));
         refreshPushButton->setText(QApplication::translate("RoomWindow", "Od\305\233wie\305\274 list\304\231", Q_NULLPTR));

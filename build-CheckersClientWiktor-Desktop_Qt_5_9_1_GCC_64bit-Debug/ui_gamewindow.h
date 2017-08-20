@@ -46,7 +46,7 @@ public:
 
     void retranslateUi(QDialog *GameWindow)
     {
-        GameWindow->setWindowTitle(QApplication::translate("GameWindow", "Dialog", Q_NULLPTR));
+        GameWindow->setWindowTitle(QApplication::translate("GameWindow", "Warcaby", Q_NULLPTR));
     } // retranslateUi
 
 };

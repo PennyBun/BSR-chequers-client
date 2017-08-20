@@ -1,7 +1,9 @@
 #include "gamewindow.h"
 #include "ui_gamewindow.h"
 #include <QPushButton>
-
+#include <QGraphicsScene>
+#include <QGraphicsProxyWidget>
+#include <QGraphicsView>
 GameWindow::GameWindow(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::GameWindow)
@@ -10,6 +12,13 @@ GameWindow::GameWindow(QWidget *parent) :
     board = new Board(this);
     uGPanel = new UsersGamePanel(this);
     giveUpButton = new QPushButton("Poddaję się",this);
+
+//    QGraphicsScene *scene = new QGraphicsScene(this);
+//    QGraphicsProxyWidget *w = scene->addWidget(giveUpButton);
+//    w->setPos(50, 50);
+//    //w->setRotation(180);
+//    //QGraphicsView* graphicsView = new QGraphicsView(this);
+//    ui->graphicsView->setScene(scene);
 
    ui->horizontalLayout->addWidget(board);
    QVBoxLayout *vLayout = new QVBoxLayout;

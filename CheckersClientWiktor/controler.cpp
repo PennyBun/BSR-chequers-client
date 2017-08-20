@@ -111,30 +111,64 @@ void Controler::invite(QString user)
 
 void Controler::squareClickedWithMouse(Square *square)
 {
-
-    qDebug()<<"Clicked square: x= "<<square->x<<" y= "<<square->y;
-    if(!isFirstClicked)
+    if(mySide)
     {
-        xClicked= square->x;
-        yClicked=square->y;
-        isFirstClicked=true;
-        gameWindow.board->isFirstClicked=isFirstClicked;
-    }
-    else
-    {
-
-        if(xClicked==square->x & yClicked==square->y)
+        qDebug()<<"Clicked square: x= "<<square->x<<" y= "<<square->y;
+        if(!isFirstClicked)
         {
-            isFirstClicked=false;
+    //        xClicked= square->x;
+    //        yClicked=square->y;
+            xClicked=square->x;
+            yClicked=square->y;
+            isFirstClicked=true;
             gameWindow.board->isFirstClicked=isFirstClicked;
         }
         else
         {
-            isFirstClicked=false;
-            gameWindow.board->isFirstClicked=isFirstClicked;
-            comm->sendCommand(MOV,QString::number(xClicked),QString::number(yClicked),QString::number(square->x),QString::number(square->y));
-            changeState(MOV_WFR);
+
+            if(xClicked==square->x & yClicked==square->y)
+            {
+                isFirstClicked=false;
+                gameWindow.board->isFirstClicked=isFirstClicked;
+            }
+            else
+            {
+                isFirstClicked=false;
+                gameWindow.board->isFirstClicked=isFirstClicked;
+                comm->sendCommand(MOV,QString::number(xClicked),QString::number(yClicked),QString::number(square->x),QString::number(square->y));
+                changeState(MOV_WFR);
+            }
         }
+    }else
+    {
+
+        qDebug()<<"Clicked square: x= "<<7-square->x<<" y= "<<7-square->y;
+        if(!isFirstClicked)
+        {
+    //        xClicked= square->x;
+    //        yClicked=square->y;
+            xClicked=7- square->x;
+            yClicked=7-square->y;
+            isFirstClicked=true;
+            gameWindow.board->isFirstClicked=isFirstClicked;
+        }
+        else
+        {
+
+            if(xClicked==7-square->x & yClicked==7-square->y)
+            {
+                isFirstClicked=false;
+                gameWindow.board->isFirstClicked=isFirstClicked;
+            }
+            else
+            {
+                isFirstClicked=false;
+                gameWindow.board->isFirstClicked=isFirstClicked;
+                comm->sendCommand(MOV,QString::number(xClicked),QString::number(yClicked),QString::number(7-square->x),QString::number(7-square->y));
+                changeState(MOV_WFR);
+            }
+        }
+
     }
 
 }
@@ -637,7 +671,20 @@ void Controler::GAMEcommandAnalyser(fullCommand fllCmmnd)
                                     }
 
                 }
-                gameWindow.board->getPiecesTable(piecesTable);
+                if(mySide)
+                {
+                    gameWindow.board->getPiecesTable(piecesTable);
+                }
+                else
+                {
+                    PieceState piecesTableRotated[64];
+                    for(int i = 0;i<64;i++)
+                    {
+                        piecesTableRotated[i]=piecesTable[63-i];
+                    }
+                    gameWindow.board->getPiecesTable(piecesTableRotated);
+
+                }
             }else
             {
                 QMessageBox msgBox;

@@ -56,7 +56,7 @@ private:
     void openRoomWindow();
     void refreshPlayersList();
     void clearSelection();
-    bool mySide; //0 - Biały, 1 - Czarny
+    bool mySide; //1 - Biały, 0 - Czarny
     bool isFirstClicked;
     int xClicked,yClicked;
 
