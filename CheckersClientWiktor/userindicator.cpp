@@ -5,7 +5,7 @@ UserIndicator::UserIndicator(QWidget *parent) : QWidget(parent)
     QPalette palette(UserIndicator::palette());
     palette.setColor(backgroundRole(),Qt::white);
     setPalette(palette);
-    setFixedSize(10,10);
+    setFixedSize(6,6);
     setContentsMargins(0,0,0,0);
 }
 void UserIndicator::paintEvent(QPaintEvent *event)

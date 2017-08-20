@@ -29,6 +29,7 @@ signals:
     void invite(QString user);
     void logout();
 private:
+    void showEvent(QShowEvent* event)override;
     QString waitingLabelStandardText;
     Ui::RoomWindow *ui;
 };

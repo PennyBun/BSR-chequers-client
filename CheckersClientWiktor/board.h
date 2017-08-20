@@ -16,6 +16,9 @@ public:
     void getPiecesTable(PieceState gotTable[]);
     void clearSelection();
     void currentPlayer(bool crrPlr);
+    bool crrPlayer;
+    bool mySide; // 0 black,1 white
+    bool isFirstClicked;
 signals:
     void squareClickedWithMouseSignal(Square* that);
 private slots:
@@ -25,7 +28,8 @@ private:
     //std::vector<std::vector<Square*>>* squaresTable;//(8,vector<point>(8));
     Square **squareTable;
     Piece **piecesTable;
-    bool myColor; // 0 - black, 1 - white
+    //bool myColor; // 0 - black, 1 - white
+
     //Matrix ma;
     //Square squaresTable [8][8];
 };

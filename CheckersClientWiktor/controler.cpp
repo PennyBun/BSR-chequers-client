@@ -18,11 +18,17 @@ Controler::Controler(QObject *parent):
     connect(&roomWindow,SIGNAL(logout()),this,SLOT(logout()));
     connect(&roomWindow,SIGNAL(invite(QString)),this,SLOT(invite(QString)));
     connect((gameWindow.board),SIGNAL(squareClickedWithMouseSignal(Square*)),this,SLOT(squareClickedWithMouse(Square*)));
+    connect(&gameWindow,SIGNAL(giveUp()),this,SLOT(giveUp()));
 }
 
 Controler::~Controler()
 {
     delete comm;
+}
+
+bool Controler::getMySide()
+{
+    return mySide;
 }
 
 
@@ -100,7 +106,7 @@ void Controler::invite(QString user)
 {
     comm->sendCommand(RFP,user);
     changeState(RFP_WFR);
-    invitedUser=user;
+    opponent=user;
 }
 
 void Controler::squareClickedWithMouse(Square *square)
@@ -112,6 +118,7 @@ void Controler::squareClickedWithMouse(Square *square)
         xClicked= square->x;
         yClicked=square->y;
         isFirstClicked=true;
+        gameWindow.board->isFirstClicked=isFirstClicked;
     }
     else
     {
@@ -119,15 +126,22 @@ void Controler::squareClickedWithMouse(Square *square)
         if(xClicked==square->x & yClicked==square->y)
         {
             isFirstClicked=false;
+            gameWindow.board->isFirstClicked=isFirstClicked;
         }
         else
         {
             isFirstClicked=false;
+            gameWindow.board->isFirstClicked=isFirstClicked;
             comm->sendCommand(MOV,QString::number(xClicked),QString::number(yClicked),QString::number(square->x),QString::number(square->y));
             changeState(MOV_WFR);
         }
     }
 
+}
+
+void Controler::giveUp()
+{
+    comm->sendCommand(GVU);
 }
 
 void Controler::changeState(state nextState)
@@ -298,7 +312,7 @@ void Controler::ROOMcommandAnalyser(fullCommand fllCmmnd)
             if (reply == QMessageBox::Yes) {
                 comm->sendCommand(RP1,"1");
                 changeState(WAITG);
-                invitedUser=fllCmmnd.par1();
+                opponent=fllCmmnd.par1();
 
             } else {
                 comm->sendCommand(RP1,"0");
@@ -412,7 +426,7 @@ void Controler::RFP_WFRcommandAnalyser(fullCommand fllCmmnd)
             if(fllCmmnd.par1()=="1")
             {
                 changeState(WAITR);
-                roomWindow.waitingForPlayerResponse(true,invitedUser);
+                roomWindow.waitingForPlayerResponse(true,opponent);
 
             }
             else if(fllCmmnd.par1()=="0")
@@ -529,8 +543,10 @@ void Controler::WAITGcommandAnalyser(fullCommand fllCmmnd)
                 gameWindow.uGPanel->player1color=mySide;
                 gameWindow.uGPanel->player2color= !mySide;
                 gameWindow.uGPanel->player1Login=user;
-                gameWindow.uGPanel->player2Login=invitedUser;
+                gameWindow.uGPanel->player2Login=opponent;
+                gameWindow.board->mySide=mySide;
                 gameWindow.uGPanel->widgetsActualization();
+                gameWindow.uGPanel->currentPlayer(0);
 
             }
             else if(fllCmmnd.par1()=="C")
@@ -541,8 +557,9 @@ void Controler::WAITGcommandAnalyser(fullCommand fllCmmnd)
                gameWindow.uGPanel->player1color=mySide;
                gameWindow.uGPanel->player2color= !mySide;
                gameWindow.uGPanel->player1Login=user;
-               gameWindow.uGPanel->player2Login=invitedUser;
+               gameWindow.uGPanel->player2Login=opponent;
                gameWindow.uGPanel->widgetsActualization();
+               gameWindow.uGPanel->currentPlayer(0);
             }
             else{
 //                QMessageBox msgBox;
@@ -638,6 +655,28 @@ void Controler::GAMEcommandAnalyser(fullCommand fllCmmnd)
         gameWindow.currentPlayer(1);
          clearSelection();
     }
+        break;
+    case  EOG:
+        {
+            QMessageBox msgBox;
+            msgBox.setWindowTitle("Warcaby");
+            if(fllCmmnd.par1()==user)
+            {
+                msgBox.setText("Gratulacje, wygrałeś!");
+            }
+            else if(fllCmmnd.par1()==opponent)
+            {
+                msgBox.setText("Koniec gry, przegrałeś.");
+            }
+            else{
+                msgBox.setText("Koniec gry");
+            }
+            msgBox.exec();
+            gameWindow.hide();
+            changeState(ROOM);
+            openRoomWindow();
+
+        }
     break;
     case ERR:
     {
@@ -767,17 +806,19 @@ void Controler::openRoomWindow()
 
     roomWindow.setUser(user);
     roomWindow.show();
-    refreshPlayersList();
+   // refreshPlayersList();
 }
 
 void Controler::refreshPlayersList()
 {
-    comm->sendCommand(LSP);
     changeState(LSP_WFR);
+    comm->sendCommand(LSP);
+
 }
 
 void Controler::clearSelection()
 {
     isFirstClicked=false;
+    gameWindow.board->isFirstClicked=isFirstClicked;
      gameWindow.board->clearSelection();
 }

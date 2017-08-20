@@ -18,6 +18,7 @@ GameWindow::GameWindow(QWidget *parent) :
     vLayout->addWidget(giveUpButton);
     QSpacerItem *spacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Expanding);
     vLayout->addItem(spacer);
+    connect(giveUpButton,SIGNAL(clicked()),this,SLOT(on_giveUpButton_Clicked()));
 }
 
 GameWindow::~GameWindow()
@@ -30,4 +31,9 @@ void GameWindow::currentPlayer(bool crrPlr)
     uGPanel->currentPlayer(crrPlr);
     board->currentPlayer(crrPlr);
     update();
+}
+
+void GameWindow::on_giveUpButton_Clicked()
+{
+    emit(giveUp());
 }

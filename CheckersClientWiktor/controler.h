@@ -16,7 +16,7 @@ public:
     explicit Controler(QObject *parent = 0);
     ~Controler();
     void show();
-
+    bool getMySide();
 
 public slots:
     void login(QString login, QString password);
@@ -26,10 +26,11 @@ public slots:
     void logout();
     void invite(QString user);
     void squareClickedWithMouse(Square *square);
+    void giveUp();
 
 private:
     QString user;
-    QString invitedUser;
+    QString opponent;
     bool currentPlayer; //1 - me, 0 - other player
     LoginWindow loginWindow;
     RoomWindow roomWindow;

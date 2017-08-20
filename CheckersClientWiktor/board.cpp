@@ -35,6 +35,7 @@ Board::Board(QWidget *parent) : QWidget(parent)
             gridSquare->setContentsMargins(0,0,0,0);
             squareTable[i*8+j]->setLayout(gridSquare);
             piecesTable[i*8+j]=new Piece(squareTable[i*8+j],not_exists);
+            squareTable[i*8+j]->setMyChildPiece(piecesTable[i*8+j]);
              connect((squareTable[i*8+j]),SIGNAL(squareClickedWithMouse(Square*)),this,SLOT(squareClickedWithMouse(Square*)));
             gridSquare->addWidget(piecesTable[i*8+j]);
             //Square sq(this,Qt::white);
@@ -84,7 +85,7 @@ void Board::clearSelection()
 
 void Board::currentPlayer(bool crrPlr)
 {
-
+    crrPlayer=crrPlr;
 }
 
 void Board::squareClickedWithMouse(Square *that)

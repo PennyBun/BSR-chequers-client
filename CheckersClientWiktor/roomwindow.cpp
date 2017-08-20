@@ -81,3 +81,10 @@ void RoomWindow::on_invitePushButton_clicked()
     }
 
 }
+
+void RoomWindow::showEvent(QShowEvent *event)
+{
+    QWidget::showEvent( event );
+    emit refreshButtonSignal();
+
+}

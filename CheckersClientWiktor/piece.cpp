@@ -15,6 +15,7 @@ Piece::Piece(QWidget *parent, PieceState pS) : QWidget(parent)
 void Piece::changeState(PieceState PS)
 {
     pieceState=PS;
+
     update();
 
 }

@@ -49,7 +49,7 @@ void LoginWindow::on_loginButton_clicked()
     {
         QMessageBox msgBox;
         msgBox.setWindowTitle("Warcaby");
-        msgBox.setText("Login oraz hasło mogą składać się tylko ze znaków alfanumerycznych");
+        msgBox.setText("Login oraz hasło mogą składać się tylko ze znaków alfanumerycznych bez znaków diaktrycznych");
         msgBox.exec();
 
     }
@@ -68,17 +68,21 @@ void LoginWindow::on_passwordLineEdit_textChanged(const QString &arg1)
 
 void LoginWindow::on_registerButton_clicked()
 {
-//    if(v->validate(ui->loginLineEdit->text(),0)!=QValidator::Invalid &
-//            v->validate(ui->passwordLineEdit->text(),0)!=QValidator::Invalid)
-//    {
+    QString a = ui->loginLineEdit->text();
+    QString b = ui->passwordLineEdit->text();
+    int pos =0;
+    if(v->validate(a,pos)!=QValidator::Invalid &
+            v->validate(b,pos)!=QValidator::Invalid)
+    {
+
         emit regist(id,password);
-//    }
-//    else
-//    {
-//        QMessageBox msgBox;
-//        msgBox.setWindowTitle("Warcaby");
-//        msgBox.setText("Login oraz hasło mogą składać się tylko ze znaków alfanumerycznych");
-//        msgBox.exec();
-//        changeState(defaultState);
-//    }
+    }
+    else
+    {
+        QMessageBox msgBox;
+        msgBox.setWindowTitle("Warcaby");
+        msgBox.setText("Login oraz hasło mogą składać się tylko ze znaków alfanumerycznych bez znaków diaktrycznych");
+        msgBox.exec();
+
+    }
 }

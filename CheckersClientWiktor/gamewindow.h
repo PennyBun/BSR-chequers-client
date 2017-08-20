@@ -17,11 +17,16 @@ public:
     ~GameWindow();
      Board* board;
      UsersGamePanel* uGPanel;
+     QPushButton* giveUpButton;
      void currentPlayer(bool crrPlr);
+private slots:
+     void on_giveUpButton_Clicked();
+signals:
+     void giveUp();
 private:
     Ui::GameWindow *ui;
 
-    QPushButton* giveUpButton;
+
 };
 
 #endif // GAMEWINDOW_H

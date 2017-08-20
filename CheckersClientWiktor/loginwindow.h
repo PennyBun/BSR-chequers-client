@@ -28,6 +28,7 @@ private slots:
 signals:
     void login(QString login, QString password);
     void regist(QString login, QString password);
+
 private:
     Ui::LoginWindow *ui;
     QString id;
